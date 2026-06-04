@@ -72,6 +72,10 @@ function add_body_classes(array $classes): array {
 		$classes[] = 'auth-screen';
 	}
 
+	if ((bool) get_query_var('tmg_agent_dashboard')) {
+		$classes[] = 'agent-dashboard-screen';
+	}
+
 	return $classes;
 }
 add_filter('body_class', __NAMESPACE__ . '\\add_body_classes');

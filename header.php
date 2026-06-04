@@ -4,6 +4,11 @@
  *
  * @package TMG_Rentals
  */
+
+use function TMG_Rentals\get_user_account_type;
+
+$header_user_id   = get_current_user_id();
+$header_is_agent  = is_user_logged_in() && get_user_account_type($header_user_id) === 'agent';
 ?><!DOCTYPE html>
 <html <?php language_attributes(); ?>>
 <head>
@@ -24,6 +29,12 @@
 				<span><?php esc_html_e('تصفح العقارات', 'tmg-rentals'); ?></span>
 			</a>
 			<?php if (is_user_logged_in()) : ?>
+				<?php if ($header_is_agent) : ?>
+					<a class="tmg-header-link" href="<?php echo esc_url(home_url('/agent-dashboard/')); ?>">
+						<span class="tmg-header-icon" aria-hidden="true">▣</span>
+						<span><?php esc_html_e('لوحة الوكيل', 'tmg-rentals'); ?></span>
+					</a>
+				<?php endif; ?>
 				<a class="tmg-header-link" href="<?php echo esc_url(home_url('/subscriptions/')); ?>">
 					<span class="tmg-header-icon" aria-hidden="true">★</span>
 					<span><?php esc_html_e('الباقات', 'tmg-rentals'); ?></span>

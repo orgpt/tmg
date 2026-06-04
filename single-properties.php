@@ -8,6 +8,8 @@
 use function TMG_Rentals\format_price;
 use function TMG_Rentals\get_primary_project_label;
 use function TMG_Rentals\get_primary_rental_type_label;
+use function TMG_Rentals\get_property_availability_label;
+use function TMG_Rentals\get_property_availability_status;
 use function TMG_Rentals\get_property_meta;
 use function TMG_Rentals\sanitize_phone;
 
@@ -23,6 +25,7 @@ while (have_posts()) :
 	$whatsapp      = sanitize_phone($meta['whatsapp']);
 	$phone         = sanitize_phone($meta['phone']);
 	$whatsapp_url  = $whatsapp ? 'https://wa.me/' . rawurlencode($whatsapp) : '';
+	$status        = get_property_availability_status(get_the_ID());
 	?>
 	<main class="tmg-shell tmg-section">
 		<div class="tmg-container">
@@ -62,6 +65,7 @@ while (have_posts()) :
 
 					<div class="tmg-single-property__summary">
 						<div class="tmg-property-card__badges">
+							<span class="tmg-badge<?php echo $status === 'rented' ? ' tmg-badge--soft' : ''; ?>"><?php echo esc_html(get_property_availability_label(get_the_ID())); ?></span>
 							<?php if ($project_label) : ?>
 								<span class="tmg-badge"><?php echo esc_html($project_label); ?></span>
 							<?php endif; ?>
@@ -136,4 +140,3 @@ while (have_posts()) :
 <?php endwhile; ?>
 <?php
 get_footer();
-

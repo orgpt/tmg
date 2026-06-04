@@ -8,6 +8,7 @@
 use function TMG_Rentals\format_price;
 use function TMG_Rentals\get_primary_project_label;
 use function TMG_Rentals\get_primary_rental_type_label;
+use function TMG_Rentals\get_property_availability_label;
 use function TMG_Rentals\get_property_meta;
 
 get_header();
@@ -163,6 +164,7 @@ $rental_types         = get_terms(array('taxonomy' => 'rental_types', 'hide_empt
 							</a>
 							<div class="tmg-property-card__body">
 								<div class="tmg-property-card__badges">
+									<span class="tmg-badge"><?php echo esc_html(get_property_availability_label(get_the_ID())); ?></span>
 									<?php if (get_primary_project_label(get_the_ID())) : ?>
 										<span class="tmg-badge"><?php echo esc_html(get_primary_project_label(get_the_ID())); ?></span>
 									<?php endif; ?>

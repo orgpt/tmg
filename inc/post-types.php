@@ -192,6 +192,19 @@ function filter_properties_archive(\WP_Query $query): void {
 		);
 	}
 
+	$meta_query[] = array(
+		'relation' => 'OR',
+		array(
+			'key'     => 'tmg_property_status',
+			'compare' => 'NOT EXISTS',
+		),
+		array(
+			'key'     => 'tmg_property_status',
+			'value'   => 'rented',
+			'compare' => '!=',
+		),
+	);
+
 	if (! empty($tax_query)) {
 		if (count($tax_query) > 1) {
 			$tax_query['relation'] = 'AND';

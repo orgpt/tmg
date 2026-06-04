@@ -693,6 +693,66 @@ body.is-rtl .tmg-auth-form .tmg-field select {
 	background: #fff;
 }
 
+.tmg-agent-dashboard__hero,
+.tmg-agent-dashboard__identity,
+.tmg-agent-dashboard__actions,
+.tmg-agent-listing-card__head,
+.tmg-agent-listing-card__actions {
+	display: flex;
+	align-items: center;
+	gap: 1rem;
+}
+
+.tmg-agent-dashboard__hero,
+.tmg-agent-dashboard__reports,
+.tmg-agent-listings {
+	display: grid;
+	gap: 1rem;
+}
+
+.tmg-agent-dashboard__hero {
+	grid-template-columns: minmax(0, 1fr) auto;
+}
+
+.tmg-agent-dashboard__avatar img {
+	width: 88px;
+	height: 88px;
+	object-fit: cover;
+	border-radius: 50%;
+	border: 3px solid rgba(15, 118, 110, 0.12);
+}
+
+.tmg-agent-dashboard__actions {
+	flex-wrap: wrap;
+	justify-content: flex-end;
+}
+
+.tmg-agent-dashboard__reports {
+	grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.tmg-agent-listing-card {
+	padding: 1.2rem;
+	border: 1px solid var(--tmg-border);
+	border-radius: 24px;
+	background: linear-gradient(180deg, rgba(255, 255, 255, 0.82), rgba(255, 247, 239, 0.96));
+}
+
+.tmg-agent-listing-card__head {
+	justify-content: space-between;
+	align-items: start;
+}
+
+.tmg-agent-listing-card__head h3 {
+	margin: 0 0 0.35rem;
+}
+
+.tmg-agent-listing-card__actions {
+	justify-content: space-between;
+	flex-wrap: wrap;
+	margin-top: 1rem;
+}
+
 .tmg-search-actions {
 	padding-top: 0.25rem;
 }
@@ -1272,11 +1332,18 @@ body.is-rtl .tmg-payment-method {
 		justify-content: center;
 	}
 
+	.tmg-agent-dashboard__actions,
+	.tmg-agent-listing-card__actions {
+		justify-content: stretch;
+	}
+
 	.tmg-archive-layout,
 	.tmg-auth-shell,
 	.tmg-home-hero__wrap,
 	.tmg-payment-panel,
 	.tmg-packages-grid,
+	.tmg-agent-dashboard__hero,
+	.tmg-agent-dashboard__reports,
 	.tmg-single-property__hero,
 	.tmg-single-property__content,
 	.tmg-grid {
@@ -1408,7 +1475,10 @@ body.is-rtl .tmg-payment-method {
 
 	.tmg-button--wide,
 	.tmg-search-actions .tmg-button,
-	.tmg-home-search__actions .tmg-button {
+	.tmg-home-search__actions .tmg-button,
+	.tmg-agent-listing-card__actions .tmg-button,
+	.tmg-agent-listing-card__actions form,
+	.tmg-agent-dashboard__actions .tmg-button {
 		width: 100%;
 	}
 
@@ -1429,7 +1499,9 @@ body.is-rtl .tmg-payment-method {
 
 	.tmg-home-search__tabs,
 	.tmg-home-search__actions,
-	.tmg-home-stats {
+	.tmg-home-stats,
+	.tmg-agent-dashboard__identity,
+	.tmg-agent-listing-card__head {
 		flex-direction: column;
 		align-items: stretch;
 	}
