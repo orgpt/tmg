@@ -28,6 +28,30 @@ function get_property_meta(int $post_id): array {
 	);
 }
 
+function get_property_availability_status(int $post_id): string {
+	$status = (string) get_post_meta($post_id, 'tmg_property_status', true);
+
+	return in_array($status, array('available', 'rented'), true) ? $status : 'available';
+}
+
+function get_property_availability_label(int $post_id): string {
+	return get_property_availability_status($post_id) === 'rented'
+		? __('تم التأجير', 'tmg-rentals')
+		: __('متاح الآن', 'tmg-rentals');
+}
+
+function get_agent_profile_summary(int $user_id): array {
+	$user = get_userdata($user_id);
+
+	return array(
+		'name'      => $user instanceof \WP_User ? $user->display_name : '',
+		'email'     => $user instanceof \WP_User ? $user->user_email : '',
+		'phone'     => (string) get_user_meta($user_id, 'tmg_agent_phone', true),
+		'image_id'  => (int) get_user_meta($user_id, 'tmg_agent_profile_image_id', true),
+		'image_url' => (string) get_user_meta($user_id, 'tmg_agent_profile_image_url', true),
+	);
+}
+
 function format_price(string $price): string {
 	if ($price === '') {
 		return __('السعر عند الطلب', 'tmg-rentals');

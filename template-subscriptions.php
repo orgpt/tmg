@@ -13,7 +13,6 @@ use function TMG_Rentals\get_subscription_notice;
 use function TMG_Rentals\get_user_account_type;
 use function TMG_Rentals\get_user_subscription;
 use function TMG_Rentals\get_user_subscription_usage;
-use function TMG_Rentals\user_has_active_subscription;
 
 get_header();
 
@@ -26,6 +25,7 @@ $account_type     = $is_logged_in ? get_user_account_type($user_id) : 'owner';
 $subscription     = $is_logged_in ? get_user_subscription($user_id) : array();
 $usage            = $is_logged_in ? get_user_subscription_usage($user_id) : array('used' => 0, 'limit' => 0, 'start' => '', 'end' => '');
 $permission       = $is_logged_in ? can_user_publish_property($user_id) : array('allowed' => false, 'message' => '');
+$current_user     = $is_logged_in ? wp_get_current_user() : null;
 ?>
 <main class="tmg-shell tmg-section">
 	<div class="tmg-container tmg-form-page">
@@ -33,7 +33,7 @@ $permission       = $is_logged_in ? can_user_publish_property($user_id) : array(
 			<div>
 				<span class="tmg-kicker"><?php esc_html_e('نظام الوكلاء', 'tmg-rentals'); ?></span>
 				<h1><?php esc_html_e('اشتراكات الوكلاء والباقات', 'tmg-rentals'); ?></h1>
-				<p><?php esc_html_e('اختر الباقة المناسبة، ثم أرسل طلب الاشتراك وسيتم تفعيل عدد العقارات المسموح لك بنشرها أسبوعيًا أو شهريًا من خلال الإدارة.', 'tmg-rentals'); ?></p>
+				<p><?php esc_html_e('اختر الباقة المناسبة ثم أرسل طلب الاشتراك، وسيتم تفعيل عدد العقارات المسموح لك بنشرها أسبوعيًا أو شهريًا من خلال الإدارة.', 'tmg-rentals'); ?></p>
 			</div>
 		</section>
 
@@ -102,12 +102,24 @@ $permission       = $is_logged_in ? can_user_publish_property($user_id) : array(
 			<div class="tmg-card">
 				<h2><?php esc_html_e('طلب اشتراك وكيل', 'tmg-rentals'); ?></h2>
 				<?php if (! $is_logged_in) : ?>
-					<p><?php esc_html_e('يرجى تسجيل الدخول أو إنشاء حساب أولاً لإرسال طلب اشتراك.', 'tmg-rentals'); ?></p>
+					<p><?php esc_html_e('يرجى تسجيل الدخول أو إنشاء حساب أولًا لإرسال طلب اشتراك.', 'tmg-rentals'); ?></p>
 					<a class="tmg-button tmg-button--primary" href="<?php echo esc_url(home_url('/auth/?mode=register')); ?>"><?php esc_html_e('إنشاء حساب وكيل', 'tmg-rentals'); ?></a>
 				<?php else : ?>
-					<form class="tmg-auth-form" method="post" action="<?php echo esc_url(home_url('/subscriptions/')); ?>">
+					<form class="tmg-auth-form" method="post" action="<?php echo esc_url(home_url('/subscriptions/')); ?>" enctype="multipart/form-data">
 						<input type="hidden" name="tmg_subscription_action" value="request">
 						<?php wp_nonce_field('tmg_subscription_request', 'tmg_subscription_nonce'); ?>
+						<label class="tmg-field">
+							<span class="tmg-field__label"><?php esc_html_e('اسم الوكيل', 'tmg-rentals'); ?></span>
+							<input type="text" name="agent_name" value="<?php echo esc_attr($current_user ? $current_user->display_name : ''); ?>" required>
+						</label>
+						<label class="tmg-field">
+							<span class="tmg-field__label"><?php esc_html_e('رقم الهاتف', 'tmg-rentals'); ?></span>
+							<input type="text" name="agent_phone" inputmode="tel" required>
+						</label>
+						<label class="tmg-field">
+							<span class="tmg-field__label"><?php esc_html_e('صورة البروفايل', 'tmg-rentals'); ?></span>
+							<input type="file" name="agent_profile_image" accept="image/*">
+						</label>
 						<label class="tmg-field">
 							<span class="tmg-field__label"><?php esc_html_e('اختر الباقة', 'tmg-rentals'); ?></span>
 							<select name="package_key" required>
@@ -129,10 +141,6 @@ $permission       = $is_logged_in ? can_user_publish_property($user_id) : array(
 						<label class="tmg-field">
 							<span class="tmg-field__label"><?php esc_html_e('رقم العملية / مرجع الدفع', 'tmg-rentals'); ?></span>
 							<input type="text" name="payment_reference" required>
-						</label>
-						<label class="tmg-field">
-							<span class="tmg-field__label"><?php esc_html_e('ملاحظات إضافية', 'tmg-rentals'); ?></span>
-							<textarea name="payment_note" rows="3"></textarea>
 						</label>
 						<button class="tmg-button tmg-button--primary tmg-button--wide" type="submit"><?php esc_html_e('إرسال طلب الاشتراك', 'tmg-rentals'); ?></button>
 					</form>

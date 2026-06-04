@@ -18,18 +18,6 @@
 		<a class="tmg-brand" href="<?php echo esc_url(home_url('/')); ?>" aria-label="<?php esc_attr_e('العودة إلى الرئيسية', 'tmg-rentals'); ?>">
 			<img class="tmg-brand__logo" src="<?php echo esc_url(get_template_directory_uri() . '/assets/images/logo-tmg-rentals.svg'); ?>" alt="<?php bloginfo('name'); ?>">
 		</a>
-		<nav class="tmg-nav" aria-label="<?php esc_attr_e('القائمة الرئيسية', 'tmg-rentals'); ?>">
-			<?php
-			wp_nav_menu(
-				array(
-					'theme_location' => 'primary',
-					'container'      => false,
-					'menu_class'     => 'tmg-nav__menu',
-					'fallback_cb'    => 'TMG_Rentals\\fallback_menu',
-				)
-			);
-			?>
-		</nav>
 		<div class="tmg-header-actions">
 			<a class="tmg-header-link" href="<?php echo esc_url(get_post_type_archive_link('properties')); ?>">
 				<span class="tmg-header-icon" aria-hidden="true">⌂</span>

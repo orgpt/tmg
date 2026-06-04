@@ -20,3 +20,4 @@ require_once TMG_RENTALS_PATH . '/inc/template-tags.php';
 require_once TMG_RENTALS_PATH . '/inc/frontend-submission.php';
 require_once TMG_RENTALS_PATH . '/inc/auth.php';
 require_once TMG_RENTALS_PATH . '/inc/agent-subscriptions.php';
+require_once TMG_RENTALS_PATH . '/inc/agent-dashboard.php';

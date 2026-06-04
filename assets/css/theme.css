@@ -658,6 +658,13 @@ body.is-rtl .tmg-payment-method p[dir="ltr"] {
 	background: linear-gradient(180deg, rgba(255, 255, 255, 0.96), rgba(255, 250, 244, 0.96));
 }
 
+.tmg-auth-form .tmg-field input[type="file"] {
+	padding: 0.8rem 1rem;
+	min-height: auto;
+	line-height: 1.5;
+	cursor: pointer;
+}
+
 .tmg-auth-form .tmg-field select {
 	appearance: none;
 	-webkit-appearance: none;
