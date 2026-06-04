@@ -590,6 +590,38 @@ html[dir="rtl"] .acf-form select {
 	gap: 1rem;
 }
 
+.tmg-payment-panel,
+.tmg-payment-methods {
+	display: grid;
+	gap: 1rem;
+}
+
+.tmg-payment-panel {
+	grid-template-columns: minmax(260px, 0.8fr) minmax(0, 1.2fr);
+}
+
+.tmg-payment-fee {
+	margin: 0;
+	font-size: clamp(1.6rem, 3vw, 2.4rem);
+	font-weight: 900;
+	color: var(--tmg-primary);
+}
+
+.tmg-payment-methods {
+	grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+}
+
+.tmg-payment-method {
+	padding: 1rem;
+	border: 1px solid var(--tmg-border);
+	border-radius: 20px;
+	background: rgba(255, 255, 255, 0.6);
+}
+
+.tmg-payment-method h3 {
+	margin: 0 0 0.5rem;
+}
+
 .tmg-filter-form label {
 	font-weight: 700;
 }
@@ -930,6 +962,7 @@ html[dir="rtl"] .acf-form select {
 
 	.tmg-archive-layout,
 	.tmg-home-hero__wrap,
+	.tmg-payment-panel,
 	.tmg-single-property__hero,
 	.tmg-single-property__content,
 	.tmg-grid {

@@ -11,6 +11,25 @@ if (! defined('ABSPATH')) {
 	exit;
 }
 
+function get_payment_method_choices(): array {
+	$settings = get_payment_settings();
+	$choices  = array();
+
+	foreach ($settings['methods'] as $key => $method) {
+		$choices[$key] = $method['label'];
+	}
+
+	if (empty($choices)) {
+		$choices = array(
+			'instapay'      => __('InstaPay', 'tmg-rentals'),
+			'vodafone_cash' => __('Vodafone Cash', 'tmg-rentals'),
+			'fawaterk'      => __('Visa / فواتيرك', 'tmg-rentals'),
+		);
+	}
+
+	return $choices;
+}
+
 function maybe_use_add_property_template(string $template): string {
 	if (is_page('add-property')) {
 		$custom_template = TMG_RENTALS_PATH . '/template-add-property.php';
@@ -30,11 +49,11 @@ function handle_property_submission($post_id) {
 	}
 
 	$new_post = array(
-		'post_type'   => 'properties',
-		'post_status' => 'pending',
-		'post_title'  => sanitize_text_field(wp_unslash($_POST['acf']['field_submission_title'] ?? __('عقار جديد', 'tmg-rentals'))),
-		'post_content'=> wp_kses_post(wp_unslash($_POST['acf']['field_submission_description'] ?? '')),
-		'post_author' => get_current_user_id() ?: 0,
+		'post_type'    => 'properties',
+		'post_status'  => 'pending',
+		'post_title'   => sanitize_text_field(wp_unslash($_POST['acf']['field_submission_title'] ?? __('عقار جديد', 'tmg-rentals'))),
+		'post_content' => wp_kses_post(wp_unslash($_POST['acf']['field_submission_description'] ?? '')),
+		'post_author'  => get_current_user_id() ?: 0,
 	);
 
 	$post_id = wp_insert_post($new_post);
@@ -68,49 +87,72 @@ function register_submission_form_fields(): void {
 
 	acf_add_local_field_group(
 		array(
-			'key' => 'group_tmg_frontend_submission',
+			'key'   => 'group_tmg_frontend_submission',
 			'title' => __('نموذج إضافة عقار', 'tmg-rentals'),
 			'fields' => array(
 				array(
-					'key' => 'field_submission_title',
-					'label' => __('عنوان الإعلان', 'tmg-rentals'),
-					'name' => 'submission_title',
-					'type' => 'text',
+					'key'      => 'field_submission_title',
+					'label'    => __('عنوان الإعلان', 'tmg-rentals'),
+					'name'     => 'submission_title',
+					'type'     => 'text',
 					'required' => 1,
 				),
 				array(
-					'key' => 'field_submission_description',
-					'label' => __('وصف العقار', 'tmg-rentals'),
-					'name' => 'submission_description',
-					'type' => 'textarea',
-					'rows' => 6,
+					'key'      => 'field_submission_description',
+					'label'    => __('وصف العقار', 'tmg-rentals'),
+					'name'     => 'submission_description',
+					'type'     => 'textarea',
+					'rows'     => 6,
 					'required' => 1,
 				),
 				array(
-					'key' => 'field_submission_project',
-					'label' => __('المشروع', 'tmg-rentals'),
-					'name' => 'submission_project',
-					'type' => 'select',
-					'choices' => $project_choices,
-					'ui' => 1,
+					'key'      => 'field_submission_project',
+					'label'    => __('المشروع', 'tmg-rentals'),
+					'name'     => 'submission_project',
+					'type'     => 'select',
+					'choices'  => $project_choices,
+					'ui'       => 1,
 					'required' => 1,
 				),
 				array(
-					'key' => 'field_submission_rental_type',
-					'label' => __('نوع الإيجار', 'tmg-rentals'),
-					'name' => 'submission_rental_type',
-					'type' => 'select',
-					'choices' => $rental_choices,
-					'ui' => 1,
+					'key'      => 'field_submission_rental_type',
+					'label'    => __('نوع الإيجار', 'tmg-rentals'),
+					'name'     => 'submission_rental_type',
+					'type'     => 'select',
+					'choices'  => $rental_choices,
+					'ui'       => 1,
 					'required' => 1,
+				),
+				array(
+					'key'      => 'field_submission_payment_method',
+					'label'    => __('طريقة الدفع', 'tmg-rentals'),
+					'name'     => 'submission_payment_method',
+					'type'     => 'select',
+					'choices'  => get_payment_method_choices(),
+					'ui'       => 1,
+					'required' => 1,
+				),
+				array(
+					'key'      => 'field_submission_payment_reference',
+					'label'    => __('رقم العملية / مرجع الدفع', 'tmg-rentals'),
+					'name'     => 'submission_payment_reference',
+					'type'     => 'text',
+					'required' => 1,
+				),
+				array(
+					'key'   => 'field_submission_payment_note',
+					'label' => __('ملاحظات الدفع', 'tmg-rentals'),
+					'name'  => 'submission_payment_note',
+					'type'  => 'textarea',
+					'rows'  => 3,
 				),
 			),
 			'location' => array(
 				array(
 					array(
-						'param' => 'page_template',
+						'param'    => 'page_template',
 						'operator' => '==',
-						'value' => 'template-add-property.php',
+						'value'    => 'template-add-property.php',
 					),
 				),
 			),

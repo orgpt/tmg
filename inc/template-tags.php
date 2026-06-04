@@ -60,3 +60,44 @@ function get_primary_rental_type_label(int $post_id): string {
 	return $terms[0]->name;
 }
 
+function get_payment_settings(): array {
+	$settings = array(
+		'fee'              => (float) get_field('listing_submission_fee', 'option'),
+		'fee_note'         => (string) get_field('listing_fee_note', 'option'),
+		'instapay_enabled' => (bool) get_field('enable_instapay', 'option'),
+		'instapay_account' => (string) get_field('instapay_account', 'option'),
+		'vodafone_enabled' => (bool) get_field('enable_vodafone_cash', 'option'),
+		'vodafone_number'  => (string) get_field('vodafone_cash_number', 'option'),
+		'fawaterk_enabled' => (bool) get_field('enable_fawaterk', 'option'),
+		'fawaterk_url'     => (string) get_field('fawaterk_payment_url', 'option'),
+		'fawaterk_note'    => (string) get_field('fawaterk_note', 'option'),
+	);
+
+	$methods = array();
+
+	if ($settings['instapay_enabled'] && $settings['instapay_account'] !== '') {
+		$methods['instapay'] = array(
+			'label'   => __('InstaPay', 'tmg-rentals'),
+			'details' => $settings['instapay_account'],
+		);
+	}
+
+	if ($settings['vodafone_enabled'] && $settings['vodafone_number'] !== '') {
+		$methods['vodafone_cash'] = array(
+			'label'   => __('Vodafone Cash', 'tmg-rentals'),
+			'details' => $settings['vodafone_number'],
+		);
+	}
+
+	if ($settings['fawaterk_enabled'] && $settings['fawaterk_url'] !== '') {
+		$methods['fawaterk'] = array(
+			'label'   => __('Visa / بطاقة عبر فواتيرك', 'tmg-rentals'),
+			'details' => $settings['fawaterk_url'],
+			'note'    => $settings['fawaterk_note'],
+		);
+	}
+
+	$settings['methods'] = $methods;
+
+	return $settings;
+}
