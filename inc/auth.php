@@ -71,12 +71,53 @@ function maybe_use_auth_template(string $template): string {
 	status_header(200);
 	global $wp_query;
 	if ($wp_query instanceof \WP_Query) {
-		$wp_query->is_404 = false;
+		$wp_query->is_404      = false;
+		$wp_query->is_page     = true;
+		$wp_query->is_singular = true;
+		$wp_query->is_home     = false;
+		$wp_query->is_archive  = false;
 	}
 
 	return $custom_template;
 }
 add_filter('template_include', __NAMESPACE__ . '\\maybe_use_auth_template', 99);
+
+function normalize_auth_query(): void {
+	if (! ((bool) get_query_var('tmg_auth') || is_auth_request())) {
+		return;
+	}
+
+	global $wp_query;
+
+	if ($wp_query instanceof \WP_Query) {
+		$wp_query->is_404      = false;
+		$wp_query->is_page     = true;
+		$wp_query->is_singular = true;
+		$wp_query->is_home     = false;
+		$wp_query->is_archive  = false;
+	}
+}
+add_action('template_redirect', __NAMESPACE__ . '\\normalize_auth_query', 1);
+
+function maybe_fix_auth_document_title(array $parts): array {
+	if ((bool) get_query_var('tmg_auth') || is_auth_request()) {
+		$parts['title'] = get_auth_mode() === 'register' ? __('إنشاء حساب', 'tmg-rentals') : __('تسجيل الدخول', 'tmg-rentals');
+	}
+
+	return $parts;
+}
+add_filter('document_title_parts', __NAMESPACE__ . '\\maybe_fix_auth_document_title');
+
+function maybe_fix_auth_title_text(string $title): string {
+	if ((bool) get_query_var('tmg_auth') || is_auth_request()) {
+		$page_title = get_auth_mode() === 'register' ? __('إنشاء حساب', 'tmg-rentals') : __('تسجيل الدخول', 'tmg-rentals');
+
+		return $page_title . ' - TMG Rentals';
+	}
+
+	return $title;
+}
+add_filter('pre_get_document_title', __NAMESPACE__ . '\\maybe_fix_auth_title_text', 99);
 
 function maybe_handle_logout(): void {
 	$is_logout = (bool) get_query_var('tmg_logout');
