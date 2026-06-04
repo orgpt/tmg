@@ -15,13 +15,15 @@ get_header();
 
 $payment_settings = get_payment_settings();
 $submission_fee   = $payment_settings['fee'];
+$page_title       = get_the_title() ?: __('أضف عقارك', 'tmg-rentals');
+$return_url       = home_url('/add-property/');
 ?>
 <main class="tmg-shell tmg-section">
 	<div class="tmg-container tmg-form-page">
 		<section class="tmg-hero tmg-hero--compact">
 			<div>
 				<span class="tmg-kicker"><?php esc_html_e('إضافة إعلان جديد', 'tmg-rentals'); ?></span>
-				<h1><?php the_title(); ?></h1>
+				<h1><?php echo esc_html($page_title); ?></h1>
 				<p><?php esc_html_e('أرسل بيانات وحدتك من الواجهة الأمامية، وسيتم مراجعتها من الإدارة قبل النشر على المنصة.', 'tmg-rentals'); ?></p>
 			</div>
 		</section>
@@ -82,7 +84,7 @@ $submission_fee   = $payment_settings['fee'];
 						'submit_value'        => __('إرسال العقار للمراجعة', 'tmg-rentals'),
 						'updated_message'     => __('تم استلام الإعلان بنجاح وسيتم مراجعته قبل النشر.', 'tmg-rentals'),
 						'html_submit_button'  => '<button class="tmg-button tmg-button--primary" type="submit">%s</button>',
-						'return'              => add_query_arg('submission', 'success', get_permalink()),
+						'return'              => add_query_arg('submission', 'success', $return_url),
 						'uploader'            => 'basic',
 					)
 				);
