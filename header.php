@@ -32,7 +32,13 @@
 		</nav>
 		<div class="tmg-header-actions">
 			<a class="tmg-header-link" href="<?php echo esc_url(get_post_type_archive_link('properties')); ?>"><?php esc_html_e('تصفح العقارات', 'tmg-rentals'); ?></a>
-			<a class="tmg-button tmg-button--primary tmg-button--sm" href="<?php echo esc_url(home_url('/add-property')); ?>"><?php esc_html_e('أضف عقارك', 'tmg-rentals'); ?></a>
+			<?php if (is_user_logged_in()) : ?>
+				<a class="tmg-header-link" href="<?php echo esc_url(home_url('/logout/')); ?>"><?php esc_html_e('تسجيل الخروج', 'tmg-rentals'); ?></a>
+				<a class="tmg-button tmg-button--primary tmg-button--sm" href="<?php echo esc_url(home_url('/add-property/')); ?>"><?php esc_html_e('أضف عقارك', 'tmg-rentals'); ?></a>
+			<?php else : ?>
+				<a class="tmg-header-link" href="<?php echo esc_url(home_url('/auth/?mode=login')); ?>"><?php esc_html_e('تسجيل الدخول', 'tmg-rentals'); ?></a>
+				<a class="tmg-button tmg-button--primary tmg-button--sm" href="<?php echo esc_url(home_url('/auth/?mode=register')); ?>"><?php esc_html_e('إنشاء حساب', 'tmg-rentals'); ?></a>
+			<?php endif; ?>
 		</div>
 	</div>
 </header>

@@ -706,6 +706,131 @@ body.is-rtl .tmg-payment-method {
 	margin: 0 0 0.5rem;
 }
 
+.tmg-auth-shell {
+	display: grid;
+	grid-template-columns: minmax(320px, 0.95fr) minmax(320px, 0.85fr);
+	gap: 1.5rem;
+	align-items: stretch;
+}
+
+.tmg-auth-shell__visual,
+.tmg-auth-card {
+	background: var(--tmg-surface);
+	border: 1px solid var(--tmg-border);
+	border-radius: 32px;
+	box-shadow: var(--tmg-shadow);
+	padding: 2rem;
+}
+
+.tmg-auth-shell__visual {
+	display: grid;
+	gap: 1rem;
+	background:
+		radial-gradient(circle at top right, rgba(196, 106, 54, 0.14), transparent 30%),
+		linear-gradient(180deg, rgba(255, 250, 244, 0.95), rgba(245, 236, 224, 0.92));
+}
+
+.tmg-auth-shell__visual h1 {
+	margin: 0;
+}
+
+.tmg-auth-benefits {
+	list-style: none;
+	margin: 0;
+	padding: 0;
+	display: grid;
+	gap: 0.8rem;
+}
+
+.tmg-auth-benefits li {
+	padding: 0.9rem 1rem;
+	border-radius: 18px;
+	background: rgba(255, 255, 255, 0.72);
+	border: 1px solid var(--tmg-border);
+	font-weight: 700;
+}
+
+.tmg-auth-card {
+	display: grid;
+	gap: 1rem;
+}
+
+.tmg-auth-switch {
+	display: grid;
+	grid-template-columns: repeat(2, minmax(0, 1fr));
+	gap: 0.75rem;
+}
+
+.tmg-auth-switch__item {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	min-height: 54px;
+	border-radius: 18px;
+	border: 1px solid var(--tmg-border);
+	background: rgba(255, 255, 255, 0.65);
+	font-weight: 800;
+}
+
+.tmg-auth-switch__item.is-active {
+	background: linear-gradient(135deg, rgba(15, 118, 110, 0.12), rgba(196, 106, 54, 0.12));
+	color: var(--tmg-text);
+	border-color: rgba(15, 118, 110, 0.14);
+}
+
+.tmg-auth-form {
+	display: grid;
+	gap: 1rem;
+}
+
+.tmg-auth-remember {
+	display: inline-flex;
+	align-items: center;
+	gap: 0.65rem;
+	font-weight: 700;
+}
+
+.tmg-auth-divider {
+	position: relative;
+	text-align: center;
+	color: var(--tmg-muted);
+	font-weight: 700;
+}
+
+.tmg-auth-divider::before {
+	content: "";
+	position: absolute;
+	inset: 50% 0 auto;
+	border-top: 1px solid var(--tmg-border);
+}
+
+.tmg-auth-divider span {
+	position: relative;
+	padding: 0 1rem;
+	background: var(--tmg-surface);
+}
+
+.tmg-google-auth {
+	display: grid;
+	gap: 0.75rem;
+}
+
+.tmg-auth-notice {
+	padding: 0.9rem 1rem;
+	border-radius: 18px;
+	font-weight: 700;
+}
+
+.tmg-auth-notice--error {
+	background: rgba(220, 38, 38, 0.1);
+	color: #b91c1c;
+}
+
+.tmg-auth-notice--success {
+	background: rgba(15, 118, 110, 0.1);
+	color: var(--tmg-primary);
+}
+
 .tmg-filter-form label {
 	font-weight: 700;
 }
@@ -1045,6 +1170,7 @@ body.is-rtl .tmg-payment-method {
 	}
 
 	.tmg-archive-layout,
+	.tmg-auth-shell,
 	.tmg-home-hero__wrap,
 	.tmg-payment-panel,
 	.tmg-single-property__hero,

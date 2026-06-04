@@ -238,3 +238,37 @@ function register_payment_settings_fields(): void {
 	);
 }
 add_action('acf/init', __NAMESPACE__ . '\\register_payment_settings_fields');
+
+function register_auth_settings_fields(): void {
+	if (! function_exists('acf_add_local_field_group')) {
+		return;
+	}
+
+	acf_add_local_field_group(
+		array(
+			'key'   => 'group_tmg_auth_settings',
+			'title' => __('إعدادات التسجيل والدخول', 'tmg-rentals'),
+			'fields' => array(
+				array(
+					'key'          => 'field_google_client_id',
+					'label'        => __('Google Client ID', 'tmg-rentals'),
+					'name'         => 'google_client_id',
+					'type'         => 'text',
+					'instructions' => __('أدخل Web Client ID من Google Cloud Console لتفعيل تسجيل الدخول عبر Google.', 'tmg-rentals'),
+				),
+			),
+			'location' => array(
+				array(
+					array(
+						'param'    => 'options_page',
+						'operator' => '==',
+						'value'    => 'tmg-rentals-settings',
+					),
+				),
+			),
+			'style'  => 'seamless',
+			'active' => true,
+		)
+	);
+}
+add_action('acf/init', __NAMESPACE__ . '\\register_auth_settings_fields');

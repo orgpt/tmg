@@ -2,6 +2,7 @@ document.addEventListener('DOMContentLoaded', function () {
   const galleries = document.querySelectorAll('[data-gallery]');
   const filterToggle = document.querySelector('[data-filter-toggle]');
   const advancedFilters = document.getElementById('tmg-advanced-filters');
+  const googleAuth = document.querySelector('[data-google-auth]');
 
   if (filterToggle && advancedFilters) {
     const hasActiveAdvancedFilter = Array.from(
@@ -22,6 +23,62 @@ document.addEventListener('DOMContentLoaded', function () {
       const expanded = filterToggle.getAttribute('aria-expanded') === 'true';
       setFiltersState(!expanded);
     });
+  }
+
+  if (
+    googleAuth &&
+    window.google &&
+    window.google.accounts &&
+    window.google.accounts.id &&
+    window.tmgRentals &&
+    window.tmgRentals.googleClientId
+  ) {
+    const handleGoogleCredential = function (response) {
+      const formData = new FormData();
+      formData.append('action', 'tmg_google_auth');
+      formData.append('nonce', window.tmgRentals.googleNonce);
+      formData.append('credential', response.credential);
+
+      fetch(window.tmgRentals.ajaxUrl, {
+        method: 'POST',
+        credentials: 'same-origin',
+        body: formData
+      })
+        .then(function (res) {
+          return res.json();
+        })
+        .then(function (data) {
+          if (data.success && data.data && data.data.redirect) {
+            window.location.href = data.data.redirect;
+            return;
+          }
+
+          window.alert(
+            (data.data && data.data.message) || window.tmgRentals.googleError
+          );
+        })
+        .catch(function () {
+          window.alert(window.tmgRentals.googleError);
+        });
+    };
+
+    window.google.accounts.id.initialize({
+      client_id: window.tmgRentals.googleClientId,
+      callback: handleGoogleCredential
+    });
+
+    window.google.accounts.id.renderButton(
+      document.getElementById('tmg-google-auth-button'),
+      {
+        type: 'standard',
+        theme: 'outline',
+        size: 'large',
+        text: 'continue_with',
+        shape: 'pill',
+        width: 320,
+        locale: 'ar'
+      }
+    );
   }
 
   galleries.forEach(function (gallery) {
