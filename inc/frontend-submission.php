@@ -11,6 +11,19 @@ if (! defined('ABSPATH')) {
 	exit;
 }
 
+function maybe_use_add_property_template(string $template): string {
+	if (is_page('add-property')) {
+		$custom_template = TMG_RENTALS_PATH . '/template-add-property.php';
+
+		if (file_exists($custom_template)) {
+			return $custom_template;
+		}
+	}
+
+	return $template;
+}
+add_filter('template_include', __NAMESPACE__ . '\\maybe_use_add_property_template');
+
 function handle_property_submission($post_id) {
 	if ($post_id !== 'new_property_submission') {
 		return $post_id;
