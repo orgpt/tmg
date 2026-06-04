@@ -12,9 +12,9 @@ if (! defined('ABSPATH')) {
 }
 
 function is_add_property_request(): bool {
-	$request_uri = sanitize_text_field(wp_unslash($_SERVER['REQUEST_URI'] ?? ''));
+	$request_uri  = sanitize_text_field(wp_unslash($_SERVER['REQUEST_URI'] ?? ''));
 	$request_path = trim((string) wp_parse_url($request_uri, PHP_URL_PATH), '/');
-	$home_path = trim((string) wp_parse_url(home_url('/'), PHP_URL_PATH), '/');
+	$home_path    = trim((string) wp_parse_url(home_url('/'), PHP_URL_PATH), '/');
 
 	if ($home_path !== '' && str_starts_with($request_path, $home_path . '/')) {
 		$request_path = substr($request_path, strlen($home_path) + 1);
@@ -91,23 +91,47 @@ add_filter('query_vars', __NAMESPACE__ . '\\register_add_property_query_var');
 function maybe_use_add_property_template(string $template): string {
 	$is_route = (bool) get_query_var('tmg_add_property') || is_page('add-property') || is_add_property_request();
 
-	if ($is_route) {
-		$custom_template = TMG_RENTALS_PATH . '/template-add-property.php';
-
-		if (file_exists($custom_template)) {
-			status_header(200);
-			global $wp_query;
-			if ($wp_query instanceof \WP_Query) {
-				$wp_query->is_404 = false;
-			}
-
-			return $custom_template;
-		}
+	if (! $is_route) {
+		return $template;
 	}
 
-	return $template;
+	$custom_template = TMG_RENTALS_PATH . '/template-add-property.php';
+
+	if (! file_exists($custom_template)) {
+		return $template;
+	}
+
+	status_header(200);
+
+	global $wp_query;
+	if ($wp_query instanceof \WP_Query) {
+		$wp_query->is_404      = false;
+		$wp_query->is_page     = true;
+		$wp_query->is_singular = true;
+		$wp_query->is_home     = false;
+		$wp_query->is_archive  = false;
+	}
+
+	return $custom_template;
 }
 add_filter('template_include', __NAMESPACE__ . '\\maybe_use_add_property_template', 99);
+
+function normalize_add_property_query(): void {
+	if (! ((bool) get_query_var('tmg_add_property') || is_add_property_request())) {
+		return;
+	}
+
+	global $wp_query;
+
+	if ($wp_query instanceof \WP_Query) {
+		$wp_query->is_404      = false;
+		$wp_query->is_page     = true;
+		$wp_query->is_singular = true;
+		$wp_query->is_home     = false;
+		$wp_query->is_archive  = false;
+	}
+}
+add_action('template_redirect', __NAMESPACE__ . '\\normalize_add_property_query', 1);
 
 function maybe_fix_add_property_document_title(array $parts): array {
 	if ((bool) get_query_var('tmg_add_property') || is_add_property_request()) {
@@ -117,6 +141,15 @@ function maybe_fix_add_property_document_title(array $parts): array {
 	return $parts;
 }
 add_filter('document_title_parts', __NAMESPACE__ . '\\maybe_fix_add_property_document_title');
+
+function maybe_fix_add_property_title_text(string $title): string {
+	if ((bool) get_query_var('tmg_add_property') || is_add_property_request()) {
+		return __('أضف عقارك - TMG Rentals', 'tmg-rentals');
+	}
+
+	return $title;
+}
+add_filter('pre_get_document_title', __NAMESPACE__ . '\\maybe_fix_add_property_title_text', 99);
 
 function maybe_fix_add_property_body_classes(array $classes): array {
 	if ((bool) get_query_var('tmg_add_property') || is_add_property_request()) {
