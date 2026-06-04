@@ -1,5 +1,28 @@
 document.addEventListener('DOMContentLoaded', function () {
   const galleries = document.querySelectorAll('[data-gallery]');
+  const filterToggle = document.querySelector('[data-filter-toggle]');
+  const advancedFilters = document.getElementById('tmg-advanced-filters');
+
+  if (filterToggle && advancedFilters) {
+    const hasActiveAdvancedFilter = Array.from(
+      advancedFilters.querySelectorAll('input, select')
+    ).some(function (field) {
+      return field.value !== '';
+    });
+
+    const setFiltersState = function (expanded) {
+      filterToggle.classList.toggle('is-active', expanded);
+      filterToggle.setAttribute('aria-expanded', expanded ? 'true' : 'false');
+      advancedFilters.hidden = !expanded;
+    };
+
+    setFiltersState(window.innerWidth >= 861 || hasActiveAdvancedFilter);
+
+    filterToggle.addEventListener('click', function () {
+      const expanded = filterToggle.getAttribute('aria-expanded') === 'true';
+      setFiltersState(!expanded);
+    });
+  }
 
   galleries.forEach(function (gallery) {
     const slides = Array.from(gallery.querySelectorAll('.tmg-gallery__slide'));

@@ -140,6 +140,58 @@ function filter_properties_archive(\WP_Query $query): void {
 		);
 	}
 
+	if (! empty($_GET['area_min'])) {
+		$meta_query[] = array(
+			'key'     => 'property_area',
+			'value'   => (int) $_GET['area_min'],
+			'type'    => 'NUMERIC',
+			'compare' => '>=',
+		);
+	}
+
+	if (! empty($_GET['area_max'])) {
+		$meta_query[] = array(
+			'key'     => 'property_area',
+			'value'   => (int) $_GET['area_max'],
+			'type'    => 'NUMERIC',
+			'compare' => '<=',
+		);
+	}
+
+	if (! empty($_GET['bedrooms'])) {
+		$meta_query[] = array(
+			'key'     => 'property_bedrooms',
+			'value'   => (int) $_GET['bedrooms'],
+			'type'    => 'NUMERIC',
+			'compare' => '=',
+		);
+	}
+
+	if (! empty($_GET['bathrooms'])) {
+		$meta_query[] = array(
+			'key'     => 'property_bathrooms',
+			'value'   => (int) $_GET['bathrooms'],
+			'type'    => 'NUMERIC',
+			'compare' => '=',
+		);
+	}
+
+	if (! empty($_GET['group'])) {
+		$meta_query[] = array(
+			'key'     => 'project_group',
+			'value'   => sanitize_text_field(wp_unslash($_GET['group'])),
+			'compare' => 'LIKE',
+		);
+	}
+
+	if (! empty($_GET['model'])) {
+		$meta_query[] = array(
+			'key'     => 'property_model',
+			'value'   => sanitize_text_field(wp_unslash($_GET['model'])),
+			'compare' => 'LIKE',
+		);
+	}
+
 	if (! empty($tax_query)) {
 		if (count($tax_query) > 1) {
 			$tax_query['relation'] = 'AND';
@@ -154,7 +206,10 @@ function filter_properties_archive(\WP_Query $query): void {
 		$query->set('meta_query', $meta_query);
 	}
 
+	if (! empty($_GET['q'])) {
+		$query->set('s', sanitize_text_field(wp_unslash($_GET['q'])));
+	}
+
 	$query->set('posts_per_page', 12);
 }
 add_action('pre_get_posts', __NAMESPACE__ . '\\filter_properties_archive');
-
