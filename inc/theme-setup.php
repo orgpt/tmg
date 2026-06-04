@@ -30,8 +30,9 @@ function setup(): void {
 add_action('after_setup_theme', __NAMESPACE__ . '\\setup');
 
 function enqueue_assets(): void {
+	wp_enqueue_style('tmg-rentals-fonts', 'https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800;900&display=swap', array(), null);
 	wp_enqueue_style('tmg-rentals-style', get_stylesheet_uri(), array(), TMG_RENTALS_VERSION);
-	wp_enqueue_style('tmg-rentals-theme', TMG_RENTALS_URL . '/assets/css/theme.css', array('tmg-rentals-style'), TMG_RENTALS_VERSION);
+	wp_enqueue_style('tmg-rentals-theme', TMG_RENTALS_URL . '/assets/css/theme.css', array('tmg-rentals-fonts', 'tmg-rentals-style'), TMG_RENTALS_VERSION);
 	wp_enqueue_script('tmg-rentals-theme', TMG_RENTALS_URL . '/assets/js/theme.js', array(), TMG_RENTALS_VERSION, true);
 
 	wp_localize_script(

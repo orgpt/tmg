@@ -16,12 +16,18 @@
 
 body {
 	margin: 0;
-	font-family: Tahoma, "Segoe UI", sans-serif;
+	font-family: "Cairo", Tahoma, "Segoe UI", sans-serif;
 	background:
 		radial-gradient(circle at top right, rgba(255, 183, 3, 0.16), transparent 28%),
 		linear-gradient(180deg, #fcfaf6 0%, #f4f1ea 100%);
 	color: var(--tmg-text);
 	line-height: 1.7;
+}
+
+html[dir="rtl"] body,
+body.is-rtl {
+	direction: rtl;
+	text-align: right;
 }
 
 body.single-property-screen {
@@ -110,6 +116,7 @@ img {
 	list-style: none;
 	margin: 0;
 	padding: 0;
+	flex-wrap: wrap;
 }
 
 .tmg-brand {
@@ -121,8 +128,7 @@ img {
 .tmg-kicker {
 	font-size: 0.8rem;
 	color: var(--tmg-primary);
-	letter-spacing: 0.08em;
-	text-transform: uppercase;
+	letter-spacing: 0;
 }
 
 .tmg-brand__name {
@@ -139,6 +145,18 @@ img {
 .tmg-header-link {
 	color: var(--tmg-text);
 	font-weight: 700;
+}
+
+.tmg-nav__menu a,
+.tmg-header-link,
+.tmg-property-card__title a {
+	transition: color 0.2s ease;
+}
+
+.tmg-nav__menu a:hover,
+.tmg-header-link:hover,
+.tmg-property-card__title a:hover {
+	color: var(--tmg-primary);
 }
 
 .tmg-button--sm {
@@ -524,6 +542,19 @@ img {
 	padding: 0.9rem 1rem;
 	color: var(--tmg-text);
 	box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.65);
+	font-family: inherit;
+	text-align: right;
+}
+
+html[dir="rtl"] .tmg-field input,
+html[dir="rtl"] .tmg-field select,
+html[dir="rtl"] .tmg-filter-form input,
+html[dir="rtl"] .tmg-filter-form select,
+html[dir="rtl"] .acf-form input,
+html[dir="rtl"] .acf-form textarea,
+html[dir="rtl"] .acf-form select {
+	direction: rtl;
+	text-align: right;
 }
 
 .tmg-field input:focus,
@@ -621,7 +652,7 @@ img {
 
 .tmg-price-pill {
 	position: absolute;
-	inset: 1rem auto auto 1rem;
+	inset: 1rem 1rem auto auto;
 	background: rgba(7, 19, 26, 0.82);
 	color: #fff;
 	font-weight: 700;
@@ -673,6 +704,13 @@ img {
 	flex-wrap: wrap;
 	gap: 0.75rem;
 	font-weight: 700;
+}
+
+.tmg-feature-list li,
+.tmg-home-stats span,
+.tmg-project-card p,
+.tmg-property-card__excerpt {
+	word-break: break-word;
 }
 
 .tmg-metrics-grid {
@@ -870,6 +908,26 @@ img {
 }
 
 @media (max-width: 860px) {
+	.tmg-site-header__inner {
+		flex-wrap: wrap;
+		gap: 1rem;
+	}
+
+	.tmg-brand {
+		width: 100%;
+		justify-items: center;
+	}
+
+	.tmg-nav,
+	.tmg-header-actions {
+		width: 100%;
+	}
+
+	.tmg-nav__menu,
+	.tmg-header-actions {
+		justify-content: center;
+	}
+
 	.tmg-archive-layout,
 	.tmg-home-hero__wrap,
 	.tmg-single-property__hero,
@@ -904,6 +962,23 @@ img {
 		grid-template-columns: repeat(2, minmax(0, 1fr));
 	}
 
+	.tmg-home-hero {
+		padding-top: 1.25rem;
+	}
+
+	.tmg-home-hero__content h1 {
+		font-size: clamp(2rem, 7vw, 3.6rem);
+		max-width: 11ch;
+	}
+
+	.tmg-home-hero__content,
+	.tmg-home-hero__visual,
+	.tmg-home-search,
+	.tmg-home-stats,
+	.tmg-section-heading {
+		width: 100%;
+	}
+
 	.tmg-floating-badge--top,
 	.tmg-floating-badge--bottom {
 		position: static;
@@ -913,12 +988,38 @@ img {
 }
 
 @media (max-width: 640px) {
-	.tmg-nav {
-		display: none;
+	.tmg-container {
+		width: min(100% - 1rem, 1180px);
+	}
+
+	.tmg-site-header__inner {
+		padding: 0.85rem 0;
+	}
+
+	.tmg-brand {
+		justify-items: start;
+	}
+
+	.tmg-brand__logo {
+		width: min(210px, 100%);
+	}
+
+	.tmg-nav__menu {
+		justify-content: flex-start;
+		gap: 0.5rem 0.85rem;
+		font-size: 0.95rem;
 	}
 
 	.tmg-header-actions {
-		display: none;
+		display: flex;
+		flex-direction: column;
+		align-items: stretch;
+	}
+
+	.tmg-header-actions .tmg-button,
+	.tmg-header-actions .tmg-header-link {
+		width: 100%;
+		text-align: center;
 	}
 
 	.tmg-grid,
@@ -945,11 +1046,49 @@ img {
 	}
 
 	.tmg-button--wide,
-	.tmg-search-actions .tmg-button {
+	.tmg-search-actions .tmg-button,
+	.tmg-home-search__actions .tmg-button {
 		width: 100%;
 	}
 
 	.tmg-home-hero__content h1 {
 		max-width: none;
+		font-size: clamp(1.8rem, 11vw, 3rem);
+		line-height: 1.18;
+	}
+
+	.tmg-home-hero__content p {
+		font-size: 0.98rem;
+	}
+
+	.tmg-home-search {
+		padding: 1rem;
+		border-radius: 24px;
+	}
+
+	.tmg-home-search__tabs,
+	.tmg-home-search__actions,
+	.tmg-home-stats {
+		flex-direction: column;
+		align-items: stretch;
+	}
+
+	.tmg-search-tab,
+	.tmg-home-stats div {
+		width: 100%;
+	}
+
+	.tmg-property-card__body,
+	.tmg-single-property__summary {
+		padding: 1rem;
+	}
+
+	.tmg-metrics-grid {
+		gap: 0.75rem;
+	}
+
+	.tmg-mobile-sticky-cta {
+		width: calc(100% - 1rem);
+		bottom: 0.5rem;
 	}
 }
