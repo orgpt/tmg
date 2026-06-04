@@ -1,0 +1,134 @@
+<?php
+/**
+ * ACF field registration.
+ *
+ * @package TMG_Rentals
+ */
+
+namespace TMG_Rentals;
+
+if (! defined('ABSPATH')) {
+	exit;
+}
+
+function register_property_fields(): void {
+	if (! function_exists('acf_add_local_field_group')) {
+		return;
+	}
+
+	acf_add_local_field_group(
+		array(
+			'key'                   => 'group_tmg_property_details',
+			'title'                 => __('بيانات العقار', 'tmg-rentals'),
+			'fields'                => array(
+				array(
+					'key'   => 'field_property_price',
+					'label' => __('سعر الإيجار', 'tmg-rentals'),
+					'name'  => 'property_price',
+					'type'  => 'number',
+					'min'   => 0,
+					'step'  => 100,
+					'required' => 1,
+					'append'   => __('جنيه / شهر', 'tmg-rentals'),
+				),
+				array(
+					'key'   => 'field_property_bedrooms',
+					'label' => __('عدد الغرف', 'tmg-rentals'),
+					'name'  => 'property_bedrooms',
+					'type'  => 'number',
+					'min'   => 0,
+					'step'  => 1,
+				),
+				array(
+					'key'   => 'field_property_bathrooms',
+					'label' => __('عدد الحمامات', 'tmg-rentals'),
+					'name'  => 'property_bathrooms',
+					'type'  => 'number',
+					'min'   => 0,
+					'step'  => 1,
+				),
+				array(
+					'key'   => 'field_property_area',
+					'label' => __('المساحة', 'tmg-rentals'),
+					'name'  => 'property_area',
+					'type'  => 'number',
+					'min'   => 0,
+					'append'=> __('م²', 'tmg-rentals'),
+				),
+				array(
+					'key'   => 'field_property_floor',
+					'label' => __('الدور', 'tmg-rentals'),
+					'name'  => 'property_floor',
+					'type'  => 'text',
+				),
+				array(
+					'key'   => 'field_project_group',
+					'label' => __('المجموعة / Bhabits', 'tmg-rentals'),
+					'name'  => 'project_group',
+					'type'  => 'text',
+				),
+				array(
+					'key'   => 'field_building_number',
+					'label' => __('رقم العمارة', 'tmg-rentals'),
+					'name'  => 'building_number',
+					'type'  => 'text',
+				),
+				array(
+					'key'   => 'field_property_model',
+					'label' => __('النموذج', 'tmg-rentals'),
+					'name'  => 'property_model',
+					'type'  => 'text',
+				),
+				array(
+					'key'   => 'field_owner_name',
+					'label' => __('اسم المالك', 'tmg-rentals'),
+					'name'  => 'owner_name',
+					'type'  => 'text',
+					'required' => 1,
+				),
+				array(
+					'key'   => 'field_whatsapp_number',
+					'label' => __('رقم واتساب', 'tmg-rentals'),
+					'name'  => 'whatsapp_number',
+					'type'  => 'text',
+					'required' => 1,
+				),
+				array(
+					'key'   => 'field_phone_number',
+					'label' => __('رقم الهاتف', 'tmg-rentals'),
+					'name'  => 'phone_number',
+					'type'  => 'text',
+				),
+				array(
+					'key'           => 'field_property_gallery',
+					'label'         => __('معرض الصور', 'tmg-rentals'),
+					'name'          => 'property_gallery',
+					'type'          => 'gallery',
+					'preview_size'  => 'medium',
+					'insert'        => 'append',
+					'library'       => 'all',
+					'min'           => 1,
+					'return_format' => 'array',
+				),
+			),
+			'location'              => array(
+				array(
+					array(
+						'param'    => 'post_type',
+						'operator' => '==',
+						'value'    => 'properties',
+					),
+				),
+			),
+			'menu_order'            => 0,
+			'position'              => 'normal',
+			'style'                 => 'seamless',
+			'label_placement'       => 'top',
+			'instruction_placement' => 'label',
+			'active'                => true,
+			'show_in_rest'          => 1,
+		)
+	);
+}
+add_action('acf/init', __NAMESPACE__ . '\\register_property_fields');
+
