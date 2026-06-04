@@ -605,7 +605,8 @@ body.is-rtl .tmg-results-toolbar {
 }
 
 .tmg-field input,
-.tmg-field select {
+.tmg-field select,
+.tmg-field textarea {
 	width: 100%;
 	min-height: 56px;
 	border: 1px solid rgba(15, 118, 110, 0.14);
@@ -620,6 +621,7 @@ body.is-rtl .tmg-results-toolbar {
 
 html[dir="rtl"] .tmg-field input,
 html[dir="rtl"] .tmg-field select,
+html[dir="rtl"] .tmg-field textarea,
 html[dir="rtl"] .tmg-filter-form input,
 html[dir="rtl"] .tmg-filter-form select,
 html[dir="rtl"] .acf-form input,
@@ -637,10 +639,51 @@ body.is-rtl .tmg-payment-method p[dir="ltr"] {
 }
 
 .tmg-field input:focus,
-.tmg-field select:focus {
+.tmg-field select:focus,
+.tmg-field textarea:focus {
 	outline: none;
 	border-color: rgba(15, 118, 110, 0.45);
 	box-shadow: 0 0 0 4px rgba(15, 118, 110, 0.08);
+}
+
+.tmg-field textarea {
+	min-height: 140px;
+	resize: vertical;
+	line-height: 1.8;
+}
+
+.tmg-auth-form .tmg-field input,
+.tmg-auth-form .tmg-field select,
+.tmg-auth-form .tmg-field textarea {
+	background: linear-gradient(180deg, rgba(255, 255, 255, 0.96), rgba(255, 250, 244, 0.96));
+}
+
+.tmg-auth-form .tmg-field select {
+	appearance: none;
+	-webkit-appearance: none;
+	-moz-appearance: none;
+	padding-inline: 1rem 2.75rem;
+	background-image:
+		linear-gradient(45deg, transparent 50%, var(--tmg-text) 50%),
+		linear-gradient(135deg, var(--tmg-text) 50%, transparent 50%);
+	background-position:
+		left 1.2rem center,
+		left 0.85rem center;
+	background-size: 10px 10px, 10px 10px;
+	background-repeat: no-repeat;
+	cursor: pointer;
+}
+
+html[dir="rtl"] .tmg-auth-form .tmg-field select,
+body.is-rtl .tmg-auth-form .tmg-field select {
+	background-position:
+		left 1.2rem center,
+		left 0.85rem center;
+}
+
+.tmg-auth-form .tmg-field option {
+	color: var(--tmg-text);
+	background: #fff;
 }
 
 .tmg-search-actions {
