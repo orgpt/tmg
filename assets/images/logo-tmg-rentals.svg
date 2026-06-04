@@ -1,0 +1,8 @@
+<svg width="260" height="72" viewBox="0 0 260 72" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect x="4" y="8" width="56" height="56" rx="20" fill="#F6E8D8"/>
+  <path d="M18 41.5L32 28L46 41.5" stroke="#0F766E" stroke-width="4.5" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M23.5 39V50H40.5V39" stroke="#0F766E" stroke-width="4.5" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M48 20C43.9 15.9 37.2 15.9 33.1 20L32 21.1L30.9 20C26.8 15.9 20.1 15.9 16 20C11.9 24.1 11.9 30.8 16 34.9L17.1 36L32 50L46.9 36L48 34.9C52.1 30.8 52.1 24.1 48 20Z" stroke="#C46A36" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" opacity="0.95"/>
+  <text x="76" y="33" fill="#183B37" font-family="Segoe UI, Tahoma, sans-serif" font-size="28" font-weight="700">TMG Rentals</text>
+  <text x="76" y="54" fill="#8C5A3C" font-family="Segoe UI, Tahoma, sans-serif" font-size="14" font-weight="600">Exclusive Homes Inside TMG Cities</text>
+</svg>

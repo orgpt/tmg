@@ -48,6 +48,10 @@ add_action('wp_enqueue_scripts', __NAMESPACE__ . '\\enqueue_assets');
 function add_body_classes(array $classes): array {
 	$classes[] = is_rtl() ? 'is-rtl' : 'is-ltr';
 
+	if (is_front_page()) {
+		$classes[] = 'home-screen';
+	}
+
 	if (is_singular('properties')) {
 		$classes[] = 'single-property-screen';
 	}
@@ -60,6 +64,6 @@ function fallback_menu(): void {
 	echo '<ul class="tmg-nav__menu">';
 	echo '<li><a href="' . esc_url(home_url('/')) . '">' . esc_html__('الرئيسية', 'tmg-rentals') . '</a></li>';
 	echo '<li><a href="' . esc_url(get_post_type_archive_link('properties')) . '">' . esc_html__('العقارات', 'tmg-rentals') . '</a></li>';
+	echo '<li><a href="' . esc_url(home_url('/add-property')) . '">' . esc_html__('أضف إعلانك', 'tmg-rentals') . '</a></li>';
 	echo '</ul>';
 }
-

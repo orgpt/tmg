@@ -15,9 +15,8 @@
 <?php wp_body_open(); ?>
 <header class="tmg-site-header">
 	<div class="tmg-container tmg-site-header__inner">
-		<a class="tmg-brand" href="<?php echo esc_url(home_url('/')); ?>">
-			<span class="tmg-brand__eyebrow"><?php esc_html_e('سوق إيجارات TMG', 'tmg-rentals'); ?></span>
-			<span class="tmg-brand__name"><?php bloginfo('name'); ?></span>
+		<a class="tmg-brand" href="<?php echo esc_url(home_url('/')); ?>" aria-label="<?php esc_attr_e('العودة إلى الرئيسية', 'tmg-rentals'); ?>">
+			<img class="tmg-brand__logo" src="<?php echo esc_url(get_template_directory_uri() . '/assets/images/logo-tmg-rentals.svg'); ?>" alt="<?php bloginfo('name'); ?>">
 		</a>
 		<nav class="tmg-nav" aria-label="<?php esc_attr_e('القائمة الرئيسية', 'tmg-rentals'); ?>">
 			<?php
@@ -31,6 +30,9 @@
 			);
 			?>
 		</nav>
+		<div class="tmg-header-actions">
+			<a class="tmg-header-link" href="<?php echo esc_url(get_post_type_archive_link('properties')); ?>"><?php esc_html_e('تصفح العقارات', 'tmg-rentals'); ?></a>
+			<a class="tmg-button tmg-button--primary tmg-button--sm" href="<?php echo esc_url(home_url('/add-property')); ?>"><?php esc_html_e('أضف عقارك', 'tmg-rentals'); ?></a>
+		</div>
 	</div>
 </header>
-
