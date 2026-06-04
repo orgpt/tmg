@@ -64,6 +64,11 @@ $return_url         = home_url('/add-property/');
 									<p><a class="tmg-button tmg-button--ghost" href="<?php echo esc_url($method['details']); ?>" target="_blank" rel="noopener"><?php esc_html_e('افتح رابط الدفع', 'tmg-rentals'); ?></a></p>
 								<?php else : ?>
 									<p dir="ltr"><?php echo esc_html($method['details']); ?></p>
+									<?php if ('instapay' === $key) : ?>
+										<div class="tmg-payment-qr">
+											<img src="<?php echo esc_url(get_template_directory_uri() . '/assets/images/instapay.jpeg'); ?>" alt="<?php esc_attr_e('InstaPay QR', 'tmg-rentals'); ?>" loading="lazy">
+										</div>
+									<?php endif; ?>
 								<?php endif; ?>
 								<?php if (! empty($method['note'])) : ?>
 									<p class="tmg-entry"><?php echo esc_html($method['note']); ?></p>

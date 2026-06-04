@@ -706,6 +706,20 @@ body.is-rtl .tmg-payment-method {
 	margin: 0 0 0.5rem;
 }
 
+.tmg-payment-qr {
+	margin-top: 0.9rem;
+	padding: 0.5rem;
+	border-radius: 18px;
+	background: #fff;
+	border: 1px solid var(--tmg-border);
+}
+
+.tmg-payment-qr img {
+	width: min(100%, 220px);
+	margin: 0 auto;
+	border-radius: 14px;
+}
+
 .tmg-auth-shell {
 	display: grid;
 	grid-template-columns: minmax(320px, 0.95fr) minmax(320px, 0.85fr);
