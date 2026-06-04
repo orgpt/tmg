@@ -272,3 +272,88 @@ function register_auth_settings_fields(): void {
 	);
 }
 add_action('acf/init', __NAMESPACE__ . '\\register_auth_settings_fields');
+
+function register_agent_packages_fields(): void {
+	if (! function_exists('acf_add_local_field_group')) {
+		return;
+	}
+
+	acf_add_local_field_group(
+		array(
+			'key'   => 'group_tmg_agent_packages',
+			'title' => __('باقات الوكلاء', 'tmg-rentals'),
+			'fields' => array(
+				array(
+					'key'          => 'field_agent_packages',
+					'label'        => __('الباقات', 'tmg-rentals'),
+					'name'         => 'agent_packages',
+					'type'         => 'repeater',
+					'button_label' => __('إضافة باقة', 'tmg-rentals'),
+					'layout'       => 'row',
+					'sub_fields'   => array(
+						array(
+							'key'   => 'field_package_key',
+							'label' => __('مفتاح الباقة', 'tmg-rentals'),
+							'name'  => 'package_key',
+							'type'  => 'text',
+						),
+						array(
+							'key'   => 'field_package_title',
+							'label' => __('اسم الباقة', 'tmg-rentals'),
+							'name'  => 'package_title',
+							'type'  => 'text',
+						),
+						array(
+							'key'    => 'field_package_price',
+							'label'  => __('السعر', 'tmg-rentals'),
+							'name'   => 'package_price',
+							'type'   => 'number',
+							'append' => __('ج.م', 'tmg-rentals'),
+						),
+						array(
+							'key'     => 'field_package_period',
+							'label'   => __('الدورية', 'tmg-rentals'),
+							'name'    => 'package_period',
+							'type'    => 'select',
+							'choices' => array(
+								'weekly'  => __('أسبوعي', 'tmg-rentals'),
+								'monthly' => __('شهري', 'tmg-rentals'),
+							),
+						),
+						array(
+							'key'   => 'field_package_listing_limit',
+							'label' => __('عدد العقارات المسموح بها', 'tmg-rentals'),
+							'name'  => 'package_listing_limit',
+							'type'  => 'number',
+						),
+						array(
+							'key'   => 'field_package_badge',
+							'label' => __('شارة الباقة', 'tmg-rentals'),
+							'name'  => 'package_badge',
+							'type'  => 'text',
+						),
+						array(
+							'key'   => 'field_package_description',
+							'label' => __('وصف الباقة', 'tmg-rentals'),
+							'name'  => 'package_description',
+							'type'  => 'textarea',
+							'rows'  => 3,
+						),
+					),
+				),
+			),
+			'location' => array(
+				array(
+					array(
+						'param'    => 'options_page',
+						'operator' => '==',
+						'value'    => 'tmg-rentals-settings',
+					),
+				),
+			),
+			'style'  => 'seamless',
+			'active' => true,
+		)
+	);
+}
+add_action('acf/init', __NAMESPACE__ . '\\register_agent_packages_fields');

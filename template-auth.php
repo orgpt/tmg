@@ -5,6 +5,7 @@
  * @package TMG_Rentals
  */
 
+use function TMG_Rentals\get_account_type_choices;
 use function TMG_Rentals\get_auth_mode;
 use function TMG_Rentals\get_auth_notice;
 use function TMG_Rentals\get_google_auth_settings;
@@ -22,11 +23,11 @@ $google_settings = get_google_auth_settings();
 			<div class="tmg-auth-shell__visual">
 				<span class="tmg-kicker"><?php esc_html_e('TMG Rentals Access', 'tmg-rentals'); ?></span>
 				<h1><?php esc_html_e('ابدأ رحلتك داخل منصة إيجارات TMG', 'tmg-rentals'); ?></h1>
-				<p><?php esc_html_e('أنشئ حسابًا لإضافة عقارك ومتابعة طلباتك، أو سجّل الدخول للوصول السريع إلى لوحة المستخدم.', 'tmg-rentals'); ?></p>
+				<p><?php esc_html_e('أنشئ حسابًا كمالك أو وكيل، ثم ابدأ في إدارة إعلاناتك واشتراكاتك من واجهة حديثة وسريعة.', 'tmg-rentals'); ?></p>
 				<ul class="tmg-auth-benefits">
-					<li><?php esc_html_e('نشر عقارك للمراجعة مباشرة', 'tmg-rentals'); ?></li>
-					<li><?php esc_html_e('إدارة بيانات التواصل ووسائل الدفع', 'tmg-rentals'); ?></li>
-					<li><?php esc_html_e('دخول سريع عبر Google', 'tmg-rentals'); ?></li>
+					<li><?php esc_html_e('إضافة العقارات ومتابعة الطلبات', 'tmg-rentals'); ?></li>
+					<li><?php esc_html_e('باقات مخصصة للوكلاء بعدد عقارات محدد', 'tmg-rentals'); ?></li>
+					<li><?php esc_html_e('دخول سريع وآمن عبر Google', 'tmg-rentals'); ?></li>
 				</ul>
 			</div>
 
@@ -75,6 +76,14 @@ $google_settings = get_google_auth_settings();
 						<label class="tmg-field">
 							<span class="tmg-field__label"><?php esc_html_e('كلمة المرور', 'tmg-rentals'); ?></span>
 							<input type="password" name="user_password" required>
+						</label>
+						<label class="tmg-field">
+							<span class="tmg-field__label"><?php esc_html_e('نوع الحساب', 'tmg-rentals'); ?></span>
+							<select name="account_type" required>
+								<?php foreach (get_account_type_choices() as $key => $label) : ?>
+									<option value="<?php echo esc_attr($key); ?>"><?php echo esc_html($label); ?></option>
+								<?php endforeach; ?>
+							</select>
 						</label>
 						<button class="tmg-button tmg-button--primary tmg-button--wide" type="submit"><?php esc_html_e('إنشاء الحساب', 'tmg-rentals'); ?></button>
 					</form>

@@ -31,13 +31,32 @@
 			?>
 		</nav>
 		<div class="tmg-header-actions">
-			<a class="tmg-header-link" href="<?php echo esc_url(get_post_type_archive_link('properties')); ?>"><?php esc_html_e('تصفح العقارات', 'tmg-rentals'); ?></a>
+			<a class="tmg-header-link" href="<?php echo esc_url(get_post_type_archive_link('properties')); ?>">
+				<span class="tmg-header-icon" aria-hidden="true">⌂</span>
+				<span><?php esc_html_e('تصفح العقارات', 'tmg-rentals'); ?></span>
+			</a>
 			<?php if (is_user_logged_in()) : ?>
-				<a class="tmg-header-link" href="<?php echo esc_url(home_url('/logout/')); ?>"><?php esc_html_e('تسجيل الخروج', 'tmg-rentals'); ?></a>
-				<a class="tmg-button tmg-button--primary tmg-button--sm" href="<?php echo esc_url(home_url('/add-property/')); ?>"><?php esc_html_e('أضف عقارك', 'tmg-rentals'); ?></a>
+				<a class="tmg-header-link" href="<?php echo esc_url(home_url('/subscriptions/')); ?>">
+					<span class="tmg-header-icon" aria-hidden="true">★</span>
+					<span><?php esc_html_e('الباقات', 'tmg-rentals'); ?></span>
+				</a>
+				<a class="tmg-header-link" href="<?php echo esc_url(home_url('/logout/')); ?>">
+					<span class="tmg-header-icon" aria-hidden="true">↩</span>
+					<span><?php esc_html_e('تسجيل الخروج', 'tmg-rentals'); ?></span>
+				</a>
+				<a class="tmg-button tmg-button--primary tmg-button--sm" href="<?php echo esc_url(home_url('/add-property/')); ?>">
+					<span class="tmg-header-icon" aria-hidden="true">＋</span>
+					<span><?php esc_html_e('أضف عقارك', 'tmg-rentals'); ?></span>
+				</a>
 			<?php else : ?>
-				<a class="tmg-header-link" href="<?php echo esc_url(home_url('/auth/?mode=login')); ?>"><?php esc_html_e('تسجيل الدخول', 'tmg-rentals'); ?></a>
-				<a class="tmg-button tmg-button--primary tmg-button--sm" href="<?php echo esc_url(home_url('/auth/?mode=register')); ?>"><?php esc_html_e('إنشاء حساب', 'tmg-rentals'); ?></a>
+				<a class="tmg-header-link" href="<?php echo esc_url(home_url('/auth/?mode=login')); ?>">
+					<span class="tmg-header-icon" aria-hidden="true">◉</span>
+					<span><?php esc_html_e('تسجيل الدخول', 'tmg-rentals'); ?></span>
+				</a>
+				<a class="tmg-button tmg-button--primary tmg-button--sm" href="<?php echo esc_url(home_url('/auth/?mode=register')); ?>">
+					<span class="tmg-header-icon" aria-hidden="true">◎</span>
+					<span><?php esc_html_e('إنشاء حساب', 'tmg-rentals'); ?></span>
+				</a>
 			<?php endif; ?>
 		</div>
 	</div>

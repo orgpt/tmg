@@ -5,7 +5,10 @@
  * @package TMG_Rentals
  */
 
+use function TMG_Rentals\can_user_publish_property;
 use function TMG_Rentals\get_payment_settings;
+use function TMG_Rentals\get_user_account_type;
+use function TMG_Rentals\get_user_subscription_usage;
 
 if (function_exists('acf_form_head')) {
 	acf_form_head();
@@ -13,10 +16,15 @@ if (function_exists('acf_form_head')) {
 
 get_header();
 
-$payment_settings = get_payment_settings();
-$submission_fee   = $payment_settings['fee'];
-$page_title       = get_the_title() ?: __('أضف عقارك', 'tmg-rentals');
-$return_url       = home_url('/add-property/');
+$user_id            = get_current_user_id();
+$is_logged_in       = is_user_logged_in();
+$account_type       = $is_logged_in ? get_user_account_type($user_id) : 'owner';
+$publish_permission = $is_logged_in ? can_user_publish_property($user_id) : array('allowed' => false, 'message' => __('يرجى تسجيل الدخول أولاً.', 'tmg-rentals'));
+$usage              = $is_logged_in ? get_user_subscription_usage($user_id) : array('used' => 0, 'limit' => 0, 'start' => '', 'end' => '');
+$payment_settings   = get_payment_settings();
+$submission_fee     = $payment_settings['fee'];
+$page_title         = get_the_title() ?: __('أضف عقارك', 'tmg-rentals');
+$return_url         = home_url('/add-property/');
 ?>
 <main class="tmg-shell tmg-section">
 	<div class="tmg-container tmg-form-page">
@@ -63,7 +71,6 @@ $return_url       = home_url('/add-property/');
 							</div>
 						<?php endforeach; ?>
 					</div>
-					<p class="tmg-entry"><?php esc_html_e('بعد الدفع، أكمل النموذج وأدخل رقم العملية أو مرجع الدفع ليتم مراجعة الإعلان.', 'tmg-rentals'); ?></p>
 				<?php else : ?>
 					<p><?php esc_html_e('لم يتم إعداد وسائل الدفع بعد من لوحة التحكم.', 'tmg-rentals'); ?></p>
 				<?php endif; ?>
@@ -72,7 +79,17 @@ $return_url       = home_url('/add-property/');
 
 		<div class="tmg-card tmg-card--soft">
 			<?php
-			if (function_exists('acf_form')) {
+			if (! $is_logged_in) {
+				echo '<p>' . esc_html__('يجب تسجيل الدخول أولاً قبل إضافة عقار.', 'tmg-rentals') . '</p>';
+				echo '<p><a class="tmg-button tmg-button--primary" href="' . esc_url(home_url('/auth/?mode=login')) . '">' . esc_html__('تسجيل الدخول', 'tmg-rentals') . '</a></p>';
+			} elseif ($account_type === 'agent' && ! $publish_permission['allowed']) {
+				echo '<p>' . esc_html($publish_permission['message']) . '</p>';
+				echo '<p><a class="tmg-button tmg-button--primary" href="' . esc_url(home_url('/subscriptions/')) . '">' . esc_html__('عرض الباقات والاشتراك', 'tmg-rentals') . '</a></p>';
+			} elseif (function_exists('acf_form')) {
+				if ($account_type === 'agent' && $usage['limit'] > 0) {
+					echo '<p class="tmg-entry">' . esc_html(sprintf(__('المتاح لك في هذه الدورة: %1$d من %2$d عقار.', 'tmg-rentals'), $usage['used'], $usage['limit'])) . '</p>';
+				}
+
 				acf_form(
 					array(
 						'post_id'             => 'new_property_submission',

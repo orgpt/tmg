@@ -58,21 +58,23 @@ function get_auth_mode(): string {
 function maybe_use_auth_template(string $template): string {
 	$is_auth = (bool) get_query_var('tmg_auth') || is_auth_request();
 
-	if ($is_auth) {
-		$custom_template = TMG_RENTALS_PATH . '/template-auth.php';
-
-		if (file_exists($custom_template)) {
-			status_header(200);
-			global $wp_query;
-			if ($wp_query instanceof \WP_Query) {
-				$wp_query->is_404 = false;
-			}
-
-			return $custom_template;
-		}
+	if (! $is_auth) {
+		return $template;
 	}
 
-	return $template;
+	$custom_template = TMG_RENTALS_PATH . '/template-auth.php';
+
+	if (! file_exists($custom_template)) {
+		return $template;
+	}
+
+	status_header(200);
+	global $wp_query;
+	if ($wp_query instanceof \WP_Query) {
+		$wp_query->is_404 = false;
+	}
+
+	return $custom_template;
 }
 add_filter('template_include', __NAMESPACE__ . '\\maybe_use_auth_template', 99);
 
@@ -132,7 +134,8 @@ function handle_login_submission(): void {
 		exit;
 	}
 
-	wp_safe_redirect(home_url('/add-property/'));
+	$redirect = get_user_account_type($user->ID) === 'agent' ? home_url('/subscriptions/') : home_url('/add-property/');
+	wp_safe_redirect($redirect);
 	exit;
 }
 
@@ -141,9 +144,10 @@ function handle_register_submission(): void {
 		return;
 	}
 
-	$name     = sanitize_text_field(wp_unslash($_POST['display_name'] ?? ''));
-	$email    = sanitize_email(wp_unslash($_POST['user_email'] ?? ''));
-	$password = (string) wp_unslash($_POST['user_password'] ?? '');
+	$name         = sanitize_text_field(wp_unslash($_POST['display_name'] ?? ''));
+	$email        = sanitize_email(wp_unslash($_POST['user_email'] ?? ''));
+	$password     = (string) wp_unslash($_POST['user_password'] ?? '');
+	$account_type = sanitize_text_field(wp_unslash($_POST['account_type'] ?? 'owner'));
 
 	if ($name === '' || $email === '' || $password === '') {
 		set_transient('tmg_auth_notice', array('type' => 'error', 'message' => __('يرجى استكمال جميع الحقول المطلوبة.', 'tmg-rentals')), 60);
@@ -183,11 +187,13 @@ function handle_register_submission(): void {
 		exit;
 	}
 
-	wp_set_current_user($user_id);
-	wp_set_auth_cookie($user_id, true);
+	update_user_account_type((int) $user_id, $account_type);
+	wp_set_current_user((int) $user_id);
+	wp_set_auth_cookie((int) $user_id, true);
 
 	set_transient('tmg_auth_notice', array('type' => 'success', 'message' => __('تم إنشاء الحساب بنجاح.', 'tmg-rentals')), 60);
-	wp_safe_redirect(home_url('/add-property/'));
+	$redirect = $account_type === 'agent' ? home_url('/subscriptions/') : home_url('/add-property/');
+	wp_safe_redirect($redirect);
 	exit;
 }
 
@@ -215,7 +221,8 @@ function maybe_redirect_logged_in_auth(): void {
 	}
 
 	if (is_user_logged_in()) {
-		wp_safe_redirect(home_url('/add-property/'));
+		$redirect = get_user_account_type(get_current_user_id()) === 'agent' ? home_url('/subscriptions/') : home_url('/add-property/');
+		wp_safe_redirect($redirect);
 		exit;
 	}
 }
@@ -282,17 +289,15 @@ function handle_google_auth_ajax(): void {
 			wp_send_json_error(array('message' => $user_id->get_error_message()), 500);
 		}
 
-		$user = get_user_by('id', $user_id);
+		update_user_account_type((int) $user_id, 'owner');
+		$user = get_user_by('id', (int) $user_id);
 	}
 
 	wp_set_current_user($user->ID);
 	wp_set_auth_cookie($user->ID, true);
 
-	wp_send_json_success(
-		array(
-			'redirect' => home_url('/add-property/'),
-		)
-	);
+	$redirect = get_user_account_type($user->ID) === 'agent' ? home_url('/subscriptions/') : home_url('/add-property/');
+	wp_send_json_success(array('redirect' => $redirect));
 }
 add_action('wp_ajax_nopriv_tmg_google_auth', __NAMESPACE__ . '\\handle_google_auth_ajax');
 add_action('wp_ajax_tmg_google_auth', __NAMESPACE__ . '\\handle_google_auth_ajax');

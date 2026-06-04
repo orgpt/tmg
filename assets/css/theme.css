@@ -831,6 +831,45 @@ body.is-rtl .tmg-payment-method {
 	color: var(--tmg-primary);
 }
 
+.tmg-header-icon {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	width: 1.5rem;
+	height: 1.5rem;
+	border-radius: 999px;
+	background: rgba(15, 118, 110, 0.08);
+	font-size: 0.9rem;
+	font-weight: 900;
+}
+
+.tmg-packages-grid {
+	display: grid;
+	grid-template-columns: repeat(3, minmax(0, 1fr));
+	gap: 1rem;
+}
+
+.tmg-package-card {
+	display: grid;
+	gap: 0.9rem;
+	padding: 1.5rem;
+	border-radius: 28px;
+	background: linear-gradient(180deg, rgba(255, 255, 255, 0.8), rgba(255, 247, 239, 0.95));
+	border: 1px solid var(--tmg-border);
+	box-shadow: var(--tmg-shadow);
+}
+
+.tmg-package-card h2,
+.tmg-package-card__price {
+	margin: 0;
+}
+
+.tmg-package-card__price {
+	font-size: 2rem;
+	font-weight: 900;
+	color: var(--tmg-primary);
+}
+
 .tmg-filter-form label {
 	font-weight: 700;
 }
@@ -1173,6 +1212,7 @@ body.is-rtl .tmg-payment-method {
 	.tmg-auth-shell,
 	.tmg-home-hero__wrap,
 	.tmg-payment-panel,
+	.tmg-packages-grid,
 	.tmg-single-property__hero,
 	.tmg-single-property__content,
 	.tmg-grid {
