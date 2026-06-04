@@ -30,6 +30,22 @@ body.is-rtl {
 	text-align: right;
 }
 
+html[dir="rtl"] .tmg-container,
+body.is-rtl .tmg-container,
+html[dir="rtl"] .tmg-card,
+body.is-rtl .tmg-card,
+html[dir="rtl"] .tmg-hero,
+body.is-rtl .tmg-hero,
+html[dir="rtl"] .tmg-search-panel,
+body.is-rtl .tmg-search-panel,
+html[dir="rtl"] .tmg-property-card__body,
+body.is-rtl .tmg-property-card__body,
+html[dir="rtl"] .tmg-entry,
+body.is-rtl .tmg-entry {
+	direction: rtl;
+	text-align: right;
+}
+
 body.single-property-screen {
 	--tmg-bg: #07131a;
 	--tmg-surface: rgba(12, 26, 36, 0.92);
@@ -106,6 +122,11 @@ img {
 	padding: 1rem 0;
 }
 
+html[dir="rtl"] .tmg-site-header__inner,
+body.is-rtl .tmg-site-header__inner {
+	flex-direction: row-reverse;
+}
+
 .tmg-brand__logo {
 	display: block;
 	width: clamp(180px, 17vw, 260px);
@@ -140,6 +161,25 @@ img {
 	display: flex;
 	align-items: center;
 	gap: 0.9rem;
+}
+
+html[dir="rtl"] .tmg-nav__menu,
+body.is-rtl .tmg-nav__menu,
+html[dir="rtl"] .tmg-header-actions,
+body.is-rtl .tmg-header-actions,
+html[dir="rtl"] .tmg-home-search__tabs,
+body.is-rtl .tmg-home-search__tabs,
+html[dir="rtl"] .tmg-home-search__actions,
+body.is-rtl .tmg-home-search__actions,
+html[dir="rtl"] .tmg-home-stats,
+body.is-rtl .tmg-home-stats,
+html[dir="rtl"] .tmg-feature-list,
+body.is-rtl .tmg-feature-list,
+html[dir="rtl"] .tmg-contact-actions,
+body.is-rtl .tmg-contact-actions,
+html[dir="rtl"] .tmg-mobile-sticky-cta,
+body.is-rtl .tmg-mobile-sticky-cta {
+	flex-direction: row-reverse;
 }
 
 .tmg-header-link {
@@ -212,6 +252,17 @@ img {
 	grid-template-columns: minmax(0, 1fr) minmax(420px, 0.95fr);
 	align-items: center;
 	gap: 1.5rem;
+}
+
+html[dir="rtl"] .tmg-home-hero__wrap,
+body.is-rtl .tmg-home-hero__wrap,
+html[dir="rtl"] .tmg-payment-panel,
+body.is-rtl .tmg-payment-panel,
+html[dir="rtl"] .tmg-single-property__hero,
+body.is-rtl .tmg-single-property__hero,
+html[dir="rtl"] .tmg-single-property__content,
+body.is-rtl .tmg-single-property__content {
+	direction: rtl;
 }
 
 .tmg-home-hero__content {
@@ -378,6 +429,18 @@ img {
 	left: -1rem;
 }
 
+html[dir="rtl"] .tmg-floating-badge--top,
+body.is-rtl .tmg-floating-badge--top {
+	right: auto;
+	left: -1rem;
+}
+
+html[dir="rtl"] .tmg-floating-badge--bottom,
+body.is-rtl .tmg-floating-badge--bottom {
+	left: auto;
+	right: -1rem;
+}
+
 .tmg-home-section {
 	padding: 1.5rem 0 2rem;
 }
@@ -391,6 +454,15 @@ img {
 .tmg-section-heading {
 	justify-content: space-between;
 	margin-bottom: 1.25rem;
+}
+
+html[dir="rtl"] .tmg-section-heading,
+body.is-rtl .tmg-section-heading,
+html[dir="rtl"] .tmg-search-panel__header,
+body.is-rtl .tmg-search-panel__header,
+html[dir="rtl"] .tmg-results-toolbar,
+body.is-rtl .tmg-results-toolbar {
+	flex-direction: row-reverse;
 }
 
 .tmg-section-heading h2 {
@@ -557,6 +629,13 @@ html[dir="rtl"] .acf-form select {
 	text-align: right;
 }
 
+html[dir="rtl"] .tmg-field input[type="number"],
+body.is-rtl .tmg-field input[type="number"],
+html[dir="rtl"] .tmg-payment-method p[dir="ltr"],
+body.is-rtl .tmg-payment-method p[dir="ltr"] {
+	text-align: left;
+}
+
 .tmg-field input:focus,
 .tmg-field select:focus {
 	outline: none;
@@ -616,6 +695,11 @@ html[dir="rtl"] .acf-form select {
 	border: 1px solid var(--tmg-border);
 	border-radius: 20px;
 	background: rgba(255, 255, 255, 0.6);
+}
+
+html[dir="rtl"] .tmg-payment-method,
+body.is-rtl .tmg-payment-method {
+	text-align: right;
 }
 
 .tmg-payment-method h3 {
@@ -990,6 +1074,15 @@ html[dir="rtl"] .acf-form select {
 		align-items: stretch;
 	}
 
+	html[dir="rtl"] .tmg-site-header__inner,
+	body.is-rtl .tmg-site-header__inner,
+	html[dir="rtl"] .tmg-nav__menu,
+	body.is-rtl .tmg-nav__menu,
+	html[dir="rtl"] .tmg-header-actions,
+	body.is-rtl .tmg-header-actions {
+		flex-direction: column;
+	}
+
 	.tmg-home-search__grid,
 	.tmg-projects-grid {
 		grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -1041,6 +1134,11 @@ html[dir="rtl"] .acf-form select {
 		justify-content: flex-start;
 		gap: 0.5rem 0.85rem;
 		font-size: 0.95rem;
+	}
+
+	html[dir="rtl"] .tmg-nav__menu,
+	body.is-rtl .tmg-nav__menu {
+		justify-content: flex-end;
 	}
 
 	.tmg-header-actions {
