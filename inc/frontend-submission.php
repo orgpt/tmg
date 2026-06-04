@@ -42,6 +42,40 @@ function get_payment_method_choices(): array {
 	return $choices;
 }
 
+function get_taxonomy_term_choices(string $taxonomy): array {
+	$choices = array();
+	$terms   = get_terms(
+		array(
+			'taxonomy'   => $taxonomy,
+			'hide_empty' => false,
+		)
+	);
+
+	if (is_wp_error($terms) || empty($terms)) {
+		return $choices;
+	}
+
+	foreach ($terms as $term) {
+		$choices[(string) $term->term_id] = $term->name;
+	}
+
+	return $choices;
+}
+
+function load_submission_project_field(array $field): array {
+	$field['choices'] = get_taxonomy_term_choices('tmg_projects');
+
+	return $field;
+}
+add_filter('acf/load_field/key=field_submission_project', __NAMESPACE__ . '\\load_submission_project_field');
+
+function load_submission_rental_type_field(array $field): array {
+	$field['choices'] = get_taxonomy_term_choices('rental_types');
+
+	return $field;
+}
+add_filter('acf/load_field/key=field_submission_rental_type', __NAMESPACE__ . '\\load_submission_rental_type_field');
+
 function register_add_property_route(): void {
 	add_rewrite_rule('^add-property/?$', 'index.php?tmg_add_property=1', 'top');
 }
@@ -125,16 +159,6 @@ function register_submission_form_fields(): void {
 		return;
 	}
 
-	$project_choices = array();
-	foreach (get_terms(array('taxonomy' => 'tmg_projects', 'hide_empty' => false)) as $term) {
-		$project_choices[$term->term_id] = $term->name;
-	}
-
-	$rental_choices = array();
-	foreach (get_terms(array('taxonomy' => 'rental_types', 'hide_empty' => false)) as $term) {
-		$rental_choices[$term->term_id] = $term->name;
-	}
-
 	acf_add_local_field_group(
 		array(
 			'key'   => 'group_tmg_frontend_submission',
@@ -160,7 +184,7 @@ function register_submission_form_fields(): void {
 					'label'    => __('المشروع', 'tmg-rentals'),
 					'name'     => 'submission_project',
 					'type'     => 'select',
-					'choices'  => $project_choices,
+					'choices'  => array(),
 					'ui'       => 1,
 					'required' => 1,
 				),
@@ -169,7 +193,7 @@ function register_submission_form_fields(): void {
 					'label'    => __('نوع الإيجار', 'tmg-rentals'),
 					'name'     => 'submission_rental_type',
 					'type'     => 'select',
-					'choices'  => $rental_choices,
+					'choices'  => array(),
 					'ui'       => 1,
 					'required' => 1,
 				),
