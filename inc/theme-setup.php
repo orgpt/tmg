@@ -62,6 +62,85 @@ function enqueue_assets(): void {
 }
 add_action('wp_enqueue_scripts', __NAMESPACE__ . '\\enqueue_assets');
 
+function add_resource_hints(array $urls, string $relation_type): array {
+	if ($relation_type === 'preconnect') {
+		$urls[] = 'https://fonts.googleapis.com';
+		$urls[] = array(
+			'href'        => 'https://fonts.gstatic.com',
+			'crossorigin' => 'anonymous',
+		);
+	}
+
+	return $urls;
+}
+add_filter('wp_resource_hints', __NAMESPACE__ . '\\add_resource_hints', 10, 2);
+
+function preload_theme_stylesheet(string $html, string $handle, string $href, string $media): string {
+	if ($handle !== 'tmg-rentals-theme') {
+		return $html;
+	}
+
+	$preload = '<link rel="preload" as="style" href="' . esc_url($href) . '">';
+
+	return $preload . $html;
+}
+add_filter('style_loader_tag', __NAMESPACE__ . '\\preload_theme_stylesheet', 10, 4);
+
+function print_critical_styles(): void {
+	if (is_admin()) {
+		return;
+	}
+	?>
+	<style id="tmg-critical-css">
+		:root {
+			--tmg-bg:#f9f9f6;
+			--tmg-surface:#ffffff;
+			--tmg-text:#1e293b;
+			--tmg-border:rgba(30,41,59,.1);
+			--tmg-shadow:0 20px 50px rgba(30,41,59,.08);
+		}
+		html { direction:rtl; background:var(--tmg-bg); }
+		body {
+			margin:0;
+			font-family:"Cairo",Tahoma,"Segoe UI",sans-serif;
+			background:
+				radial-gradient(circle at top right, rgba(212,175,55,.12), transparent 28%),
+				radial-gradient(circle at top left, rgba(25,135,84,.06), transparent 24%),
+				linear-gradient(180deg, #fcfcfa 0%, #f3f6f1 100%);
+			color:var(--tmg-text);
+			line-height:1.7;
+		}
+		.tmg-container { width:min(1180px, calc(100% - 2rem)); margin:0 auto; }
+		.tmg-site-header {
+			position:sticky;
+			top:0;
+			z-index:20;
+			background:rgba(255,255,255,.92);
+			border-bottom:1px solid var(--tmg-border);
+		}
+		.tmg-site-header__inner {
+			display:flex;
+			flex-direction:row-reverse;
+			align-items:center;
+			justify-content:space-between;
+			gap:1rem;
+			padding:1rem 0;
+		}
+		.tmg-brand__logo { display:block; width:clamp(180px,17vw,260px); height:auto; }
+		.tmg-header-actions { display:flex; align-items:center; gap:.9rem; }
+		.tmg-section { padding:2rem 0 5rem; }
+		.tmg-hero, .tmg-card {
+			background:var(--tmg-surface);
+			border:1px solid var(--tmg-border);
+			border-radius:24px;
+			box-shadow:var(--tmg-shadow);
+		}
+		.tmg-hero { padding:2rem; margin-bottom:2rem; }
+	</style>
+	<?php
+}
+add_action('wp_head', __NAMESPACE__ . '\\print_critical_styles', 1);
+
 function add_body_classes(array $classes): array {
 	$classes[] = 'is-rtl';
 
