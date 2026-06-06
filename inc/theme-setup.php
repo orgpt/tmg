@@ -76,6 +76,10 @@ function add_body_classes(array $classes): array {
 		$classes[] = 'agent-dashboard-screen';
 	}
 
+	if ((bool) get_query_var('tmg_property_payment')) {
+		$classes[] = 'property-payment-screen';
+	}
+
 	return $classes;
 }
 add_filter('body_class', __NAMESPACE__ . '\\add_body_classes');

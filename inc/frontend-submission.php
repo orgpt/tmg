@@ -177,9 +177,11 @@ function handle_property_submission($post_id) {
 		wp_die(esc_html($permission['message']));
 	}
 
+	$is_agent = get_user_account_type($user_id) === 'agent';
+
 	$new_post = array(
 		'post_type'    => 'properties',
-		'post_status'  => 'pending',
+		'post_status'  => $is_agent ? 'pending' : 'draft',
 		'post_title'   => sanitize_text_field(wp_unslash($_POST['acf']['field_submission_title'] ?? __('عقار جديد', 'tmg-rentals'))),
 		'post_content' => wp_kses_post(wp_unslash($_POST['acf']['field_submission_description'] ?? '')),
 		'post_author'  => $user_id,
@@ -194,6 +196,9 @@ function handle_property_submission($post_id) {
 	if (! empty($_POST['acf']['field_submission_rental_type'])) {
 		wp_set_object_terms($post_id, array((int) $_POST['acf']['field_submission_rental_type']), 'rental_types', false);
 	}
+
+	update_post_meta($post_id, 'tmg_payment_status', $is_agent ? 'package_included' : 'awaiting_payment');
+	update_post_meta($post_id, 'tmg_property_status', 'available');
 
 	return $post_id;
 }
@@ -282,14 +287,6 @@ function register_submission_form_fields(): void {
 add_action('acf/init', __NAMESPACE__ . '\\register_submission_form_fields');
 
 function maybe_hide_payment_fields_for_agents($field) {
-	if (! is_user_logged_in()) {
-		return $field;
-	}
-
-	if (get_user_account_type(get_current_user_id()) !== 'agent') {
-		return $field;
-	}
-
 	return false;
 }
 add_filter('acf/prepare_field/key=field_submission_payment_method', __NAMESPACE__ . '\\maybe_hide_payment_fields_for_agents');
@@ -297,23 +294,7 @@ add_filter('acf/prepare_field/key=field_submission_payment_reference', __NAMESPA
 add_filter('acf/prepare_field/key=field_submission_payment_note', __NAMESPACE__ . '\\maybe_hide_payment_fields_for_agents');
 
 function validate_submission_payment_fields($valid, $value, $field, $input) {
-	if ($valid !== true) {
-		return $valid;
-	}
-
-	if (! is_user_logged_in()) {
-		return $valid;
-	}
-
-	if (get_user_account_type(get_current_user_id()) === 'agent') {
-		return true;
-	}
-
-	if (in_array($field['key'] ?? '', array('field_submission_payment_method', 'field_submission_payment_reference'), true) && trim((string) $value) === '') {
-		return __('يرجى استكمال بيانات الدفع قبل إرسال الإعلان.', 'tmg-rentals');
-	}
-
-	return $valid;
+	return true;
 }
 add_filter('acf/validate_value/key=field_submission_payment_method', __NAMESPACE__ . '\\validate_submission_payment_fields', 10, 4);
 add_filter('acf/validate_value/key=field_submission_payment_reference', __NAMESPACE__ . '\\validate_submission_payment_fields', 10, 4);
