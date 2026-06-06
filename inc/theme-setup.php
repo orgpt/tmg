@@ -31,11 +31,16 @@ add_action('after_setup_theme', __NAMESPACE__ . '\\setup');
 
 function enqueue_assets(): void {
 	$google_settings = function_exists(__NAMESPACE__ . '\\get_google_auth_settings') ? get_google_auth_settings() : array('client_id' => '');
+	$is_add_property = function_exists(__NAMESPACE__ . '\\is_add_property_request') && is_add_property_request();
 
 	wp_enqueue_style('tmg-rentals-fonts', 'https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800;900&display=swap', array(), null);
 	wp_enqueue_style('tmg-rentals-style', get_stylesheet_uri(), array(), TMG_RENTALS_VERSION);
 	wp_enqueue_style('tmg-rentals-theme', TMG_RENTALS_URL . '/assets/css/theme.css', array('tmg-rentals-fonts', 'tmg-rentals-style'), TMG_RENTALS_VERSION);
 	wp_enqueue_script('tmg-rentals-theme', TMG_RENTALS_URL . '/assets/js/theme.js', array(), TMG_RENTALS_VERSION, true);
+
+	if ($is_add_property) {
+		wp_enqueue_media();
+	}
 
 	if (! empty($google_settings['client_id'])) {
 		wp_enqueue_script('google-identity-services', 'https://accounts.google.com/gsi/client', array(), null, true);
