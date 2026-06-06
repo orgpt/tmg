@@ -55,20 +55,10 @@ body.is-rtl .tmg-entry {
 }
 
 body.single-property-screen {
-	--tmg-bg: #091611;
-	--tmg-surface: rgba(10, 24, 18, 0.92);
-	--tmg-surface-2: rgba(15, 37, 27, 0.9);
-	--tmg-text: #f1f5f9;
-	--tmg-muted: #b9c3cf;
-	--tmg-border: rgba(212, 175, 55, 0.16);
-	--tmg-primary: #198754;
-	--tmg-primary-strong: #0f5132;
-	--tmg-accent: #d4af37;
-	--tmg-shadow: 0 20px 60px rgba(0, 0, 0, 0.4);
 	background:
-		radial-gradient(circle at top right, rgba(25, 135, 84, 0.16), transparent 24%),
-		radial-gradient(circle at top left, rgba(212, 175, 55, 0.1), transparent 22%),
-		linear-gradient(180deg, #06100c 0%, #0b1712 100%);
+		radial-gradient(circle at top right, rgba(212, 175, 55, 0.12), transparent 28%),
+		radial-gradient(circle at top left, rgba(25, 135, 84, 0.06), transparent 24%),
+		linear-gradient(180deg, #fcfcfa 0%, #f3f6f1 100%);
 	color: var(--tmg-text);
 }
 
@@ -112,7 +102,7 @@ img {
 }
 
 .single-property-screen .tmg-site-header {
-	background: rgba(7, 19, 26, 0.75);
+	background: rgba(255, 252, 248, 0.84);
 }
 
 .tmg-site-header__inner,
@@ -172,7 +162,7 @@ body.is-rtl .tmg-site-header__inner {
 }
 
 .tmg-header-panel {
-	display: contents;
+	display: block;
 }
 
 .tmg-menu-toggle {
@@ -1122,10 +1112,6 @@ body.is-rtl .tmg-payment-method {
 	color: #9f7b12;
 }
 
-.single-property-screen .tmg-badge--soft {
-	color: #ffe082;
-}
-
 .tmg-property-card__body,
 .tmg-single-property__summary {
 	padding: 1.35rem;
@@ -1363,22 +1349,28 @@ body.is-rtl .tmg-payment-method {
 
 @media (max-width: 860px) {
 	.tmg-site-header__inner {
-		flex-wrap: wrap;
-		gap: 1rem;
+		display: grid;
+		grid-template-columns: auto 1fr;
+		align-items: center;
+		gap: 0.75rem;
 	}
 
 	.tmg-brand {
-		flex: 1;
+		grid-column: 2;
 		width: auto;
 		justify-items: start;
 	}
 
 	.tmg-menu-toggle {
+		grid-column: 1;
+		grid-row: 1;
 		display: inline-flex;
+		justify-self: start;
 	}
 
 	.tmg-header-panel {
 		display: none;
+		grid-column: 1 / -1;
 		width: 100%;
 		padding-top: 0.35rem;
 	}
@@ -1394,7 +1386,9 @@ body.is-rtl .tmg-payment-method {
 		border-radius: 22px;
 		background: rgba(255, 255, 255, 0.92);
 		box-shadow: 0 18px 40px rgba(30, 41, 59, 0.08);
-		justify-content: center;
+		display: grid;
+		grid-template-columns: 1fr;
+		gap: 0.7rem;
 	}
 
 	.tmg-agent-dashboard__actions,
@@ -1436,11 +1430,26 @@ body.is-rtl .tmg-payment-method {
 		align-items: stretch;
 	}
 
-	html[dir="rtl"] .tmg-site-header__inner,
-	body.is-rtl .tmg-site-header__inner,
 	html[dir="rtl"] .tmg-nav__menu,
 	body.is-rtl .tmg-nav__menu {
 		flex-direction: column;
+	}
+
+	html[dir="rtl"] .tmg-site-header__inner,
+	body.is-rtl .tmg-site-header__inner {
+		grid-template-columns: 1fr auto;
+	}
+
+	html[dir="rtl"] .tmg-brand,
+	body.is-rtl .tmg-brand {
+		grid-column: 1;
+		justify-items: start;
+	}
+
+	html[dir="rtl"] .tmg-menu-toggle,
+	body.is-rtl .tmg-menu-toggle {
+		grid-column: 2;
+		justify-self: end;
 	}
 
 	.tmg-home-search__grid,
@@ -1493,26 +1502,18 @@ body.is-rtl .tmg-payment-method {
 	}
 
 	.tmg-site-header__inner {
-		padding: 0.7rem 0;
-		gap: 0.75rem;
+		padding: 0.5rem 0;
+		gap: 0.6rem;
 		align-items: center;
 	}
 
 	.tmg-brand {
 		width: auto;
 		justify-items: start;
-		flex: 1;
 	}
 
 	.tmg-brand__logo {
-		width: min(164px, 70vw);
-	}
-
-	.tmg-header-actions {
-		display: grid;
-		grid-template-columns: 1fr;
-		gap: 0.65rem;
-		width: 100%;
+		width: min(150px, 64vw);
 	}
 
 	.tmg-header-actions .tmg-button,
@@ -1520,21 +1521,35 @@ body.is-rtl .tmg-payment-method {
 		width: 100%;
 		text-align: center;
 		justify-content: center;
-		min-height: 48px;
-		padding: 0.8rem 0.95rem;
-		font-size: 0.92rem;
+		min-height: 44px;
+		padding: 0.72rem 0.9rem;
+		font-size: 0.88rem;
 	}
 
 	.tmg-header-link {
 		border: 1px solid var(--tmg-border);
-		border-radius: 16px;
+		border-radius: 14px;
 		background: rgba(255, 255, 255, 0.82);
 	}
 
 	.tmg-menu-toggle {
-		width: 46px;
-		height: 46px;
-		border-radius: 14px;
+		width: 42px;
+		height: 42px;
+		border-radius: 12px;
+	}
+
+	.tmg-menu-toggle span {
+		width: 18px;
+	}
+
+	.tmg-header-panel {
+		padding-top: 0.2rem;
+	}
+
+	.tmg-header-actions {
+		padding: 0.7rem;
+		border-radius: 18px;
+		gap: 0.55rem;
 	}
 
 	.tmg-header-icon {
@@ -1675,11 +1690,23 @@ body.is-rtl .tmg-payment-method {
 	}
 
 	.tmg-site-header__inner {
-		padding: 0.6rem 0;
+		padding: 0.45rem 0;
 	}
 
 	.tmg-brand__logo {
-		width: min(148px, 68vw);
+		width: min(138px, 62vw);
+	}
+
+	.tmg-menu-toggle {
+		width: 40px;
+		height: 40px;
+	}
+
+	.tmg-header-actions .tmg-button,
+	.tmg-header-actions .tmg-header-link {
+		min-height: 42px;
+		padding: 0.68rem 0.82rem;
+		font-size: 0.84rem;
 	}
 
 	.tmg-home-hero__eyebrow {

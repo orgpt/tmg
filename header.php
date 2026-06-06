@@ -23,12 +23,12 @@ $header_is_agent  = is_user_logged_in() && get_user_account_type($header_user_id
 		<a class="tmg-brand" href="<?php echo esc_url(home_url('/')); ?>" aria-label="<?php esc_attr_e('العودة إلى الرئيسية', 'tmg-rentals'); ?>">
 			<img class="tmg-brand__logo" src="<?php echo esc_url(get_template_directory_uri() . '/assets/images/logo-tmg-rentals.svg'); ?>" alt="<?php bloginfo('name'); ?>">
 		</a>
-		<button class="tmg-menu-toggle" type="button" aria-expanded="false" aria-controls="tmg-header-panel" aria-label="Toggle menu" data-menu-toggle>
+		<button class="tmg-menu-toggle" type="button" aria-expanded="false" aria-controls="tmg-header-panel" aria-label="<?php esc_attr_e('فتح القائمة', 'tmg-rentals'); ?>" data-menu-toggle>
 			<span></span>
 			<span></span>
 			<span></span>
 		</button>
-		<nav class="tmg-header-panel" id="tmg-header-panel" data-header-panel>
+		<nav class="tmg-header-panel" id="tmg-header-panel" data-header-panel hidden>
 		<div class="tmg-header-actions">
 			<a class="tmg-header-link" href="<?php echo esc_url(get_post_type_archive_link('properties')); ?>">
 				<span class="tmg-header-icon" aria-hidden="true">⌂</span>

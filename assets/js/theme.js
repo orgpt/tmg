@@ -11,9 +11,14 @@ document.addEventListener('DOMContentLoaded', function () {
       menuToggle.classList.toggle('is-open', expanded);
       menuToggle.setAttribute('aria-expanded', expanded ? 'true' : 'false');
       headerPanel.classList.toggle('is-open', expanded);
+      headerPanel.hidden = !expanded && window.innerWidth <= 860;
     };
 
-    setMenuState(false);
+    if (window.innerWidth > 860) {
+      headerPanel.hidden = false;
+    } else {
+      setMenuState(false);
+    }
 
     menuToggle.addEventListener('click', function () {
       const expanded = menuToggle.getAttribute('aria-expanded') === 'true';
@@ -44,10 +49,12 @@ document.addEventListener('DOMContentLoaded', function () {
         menuToggle.classList.remove('is-open');
         menuToggle.setAttribute('aria-expanded', 'false');
         headerPanel.classList.remove('is-open');
+        headerPanel.hidden = false;
         return;
       }
 
       headerPanel.classList.remove('is-open');
+      headerPanel.hidden = true;
     });
   }
 
