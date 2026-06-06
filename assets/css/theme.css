@@ -23,6 +23,13 @@ body {
 		linear-gradient(180deg, #fcfcfa 0%, #f3f6f1 100%);
 	color: var(--tmg-text);
 	line-height: 1.7;
+	overflow-x: hidden;
+}
+
+*,
+*::before,
+*::after {
+	box-sizing: border-box;
 }
 
 html[dir="rtl"] body,
@@ -1391,6 +1398,10 @@ body.is-rtl .tmg-payment-method {
 		padding-top: 1.25rem;
 	}
 
+	.tmg-home-hero__wrap {
+		gap: 1rem;
+	}
+
 	.tmg-home-hero__content h1 {
 		font-size: clamp(2rem, 7vw, 3.6rem);
 		max-width: 11ch;
@@ -1410,6 +1421,11 @@ body.is-rtl .tmg-payment-method {
 		max-width: none;
 		margin-top: 1rem;
 	}
+
+	.tmg-home-hero__visual {
+		max-width: 540px;
+		margin-inline: auto;
+	}
 }
 
 @media (max-width: 640px) {
@@ -1417,16 +1433,23 @@ body.is-rtl .tmg-payment-method {
 		width: min(100% - 1rem, 1180px);
 	}
 
+	.tmg-site-header {
+		position: sticky;
+		top: 0;
+	}
+
 	.tmg-site-header__inner {
-		padding: 0.85rem 0;
+		padding: 0.7rem 0;
+		gap: 0.75rem;
 	}
 
 	.tmg-brand {
-		justify-items: start;
+		width: 100%;
+		justify-items: center;
 	}
 
 	.tmg-brand__logo {
-		width: min(210px, 100%);
+		width: min(172px, 82vw);
 	}
 
 	.tmg-nav__menu {
@@ -1441,15 +1464,32 @@ body.is-rtl .tmg-payment-method {
 	}
 
 	.tmg-header-actions {
-		display: flex;
-		flex-direction: column;
-		align-items: stretch;
+		display: grid;
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+		gap: 0.65rem;
+		width: 100%;
 	}
 
 	.tmg-header-actions .tmg-button,
 	.tmg-header-actions .tmg-header-link {
 		width: 100%;
 		text-align: center;
+		justify-content: center;
+		min-height: 48px;
+		padding: 0.8rem 0.95rem;
+		font-size: 0.92rem;
+	}
+
+	.tmg-header-link {
+		border: 1px solid var(--tmg-border);
+		border-radius: 16px;
+		background: rgba(255, 255, 255, 0.82);
+	}
+
+	.tmg-header-icon {
+		width: 1.35rem;
+		height: 1.35rem;
+		font-size: 0.82rem;
 	}
 
 	.tmg-grid,
@@ -1468,11 +1508,12 @@ body.is-rtl .tmg-payment-method {
 	.tmg-card,
 	.tmg-filter-card,
 	.tmg-search-panel {
-		padding: 1.2rem;
+		padding: 1rem;
+		border-radius: 20px;
 	}
 
 	.tmg-section {
-		padding-bottom: 6.5rem;
+		padding-bottom: 5rem;
 	}
 
 	.tmg-button--wide,
@@ -1486,17 +1527,18 @@ body.is-rtl .tmg-payment-method {
 
 	.tmg-home-hero__content h1 {
 		max-width: none;
-		font-size: clamp(1.8rem, 11vw, 3rem);
-		line-height: 1.18;
+		font-size: clamp(1.95rem, 10vw, 2.7rem);
+		line-height: 1.12;
 	}
 
 	.tmg-home-hero__content p {
-		font-size: 0.98rem;
+		font-size: 0.94rem;
 	}
 
 	.tmg-home-search {
-		padding: 1rem;
-		border-radius: 24px;
+		padding: 0.9rem;
+		border-radius: 22px;
+		gap: 0.85rem;
 	}
 
 	.tmg-home-search__tabs,
@@ -1513,6 +1555,54 @@ body.is-rtl .tmg-payment-method {
 		width: 100%;
 	}
 
+	.tmg-home-search__grid {
+		gap: 0.75rem;
+	}
+
+	.tmg-home-hero {
+		padding-top: 0.75rem;
+	}
+
+	.tmg-home-hero__content {
+		gap: 0.8rem;
+	}
+
+	.tmg-home-hero__chips {
+		gap: 0.55rem;
+	}
+
+	.tmg-hero-chip {
+		padding: 0.5rem 0.75rem;
+		font-size: 0.84rem;
+	}
+
+	.tmg-home-stats {
+		gap: 0.75rem;
+	}
+
+	.tmg-home-stats div {
+		min-width: 0;
+		padding: 0.75rem 0.85rem;
+		text-align: center;
+	}
+
+	.tmg-home-hero__visual {
+		display: none;
+	}
+
+	.tmg-project-card {
+		padding: 1rem;
+		border-radius: 20px;
+	}
+
+	.tmg-project-card p {
+		font-size: 0.92rem;
+	}
+
+	.tmg-property-card__media {
+		aspect-ratio: 5 / 4;
+	}
+
 	.tmg-property-card__body,
 	.tmg-single-property__summary {
 		padding: 1rem;
@@ -1525,5 +1615,71 @@ body.is-rtl .tmg-payment-method {
 	.tmg-mobile-sticky-cta {
 		width: calc(100% - 1rem);
 		bottom: 0.5rem;
+	}
+}
+
+@media (max-width: 420px) {
+	.tmg-container {
+		width: calc(100% - 0.75rem);
+	}
+
+	.tmg-site-header__inner {
+		padding: 0.6rem 0;
+	}
+
+	.tmg-brand__logo {
+		width: min(156px, 78vw);
+	}
+
+	.tmg-header-actions {
+		grid-template-columns: 1fr;
+	}
+
+	.tmg-home-hero__eyebrow {
+		font-size: 0.72rem;
+		padding: 0.45rem 0.75rem;
+	}
+
+	.tmg-home-hero__content h1 {
+		font-size: clamp(1.75rem, 9.6vw, 2.25rem);
+	}
+
+	.tmg-home-hero__content p {
+		font-size: 0.9rem;
+	}
+
+	.tmg-home-hero__chips {
+		display: none;
+	}
+
+	.tmg-home-search__tabs {
+		gap: 0.55rem;
+	}
+
+	.tmg-search-tab {
+		min-height: 46px;
+		padding: 0.72rem 0.9rem;
+		font-size: 0.9rem;
+	}
+
+	.tmg-field__label {
+		font-size: 0.84rem;
+	}
+
+	.tmg-field input,
+	.tmg-field select,
+	.tmg-field textarea {
+		min-height: 52px;
+		padding: 0.8rem 0.9rem;
+		font-size: 0.95rem;
+	}
+
+	.tmg-button {
+		min-height: 48px;
+		font-size: 0.94rem;
+	}
+
+	.tmg-home-stats strong {
+		font-size: 1.05rem;
 	}
 }
