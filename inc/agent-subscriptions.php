@@ -259,6 +259,23 @@ function can_user_publish_property(int $user_id): array {
 	$type = get_user_account_type($user_id);
 
 	if ($type !== 'agent') {
+		$query = new \WP_Query(
+			array(
+				'post_type'      => 'properties',
+				'post_status'    => array('publish', 'pending', 'draft'),
+				'author'         => $user_id,
+				'posts_per_page' => 1,
+				'fields'         => 'ids',
+			)
+		);
+
+		if ((int) $query->found_posts > 0) {
+			return array(
+				'allowed' => false,
+				'message' => __('الحساب العادي يمكنه إضافة عقار واحد فقط عبر رسوم النشر الحالية. إذا كنت تريد نشر أكثر من عقار اشترك كباقة وكيل.', 'tmg-rentals'),
+			);
+		}
+
 		return array(
 			'allowed' => true,
 			'message' => '',

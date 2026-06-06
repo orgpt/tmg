@@ -342,3 +342,72 @@ function handle_google_auth_ajax(): void {
 }
 add_action('wp_ajax_nopriv_tmg_google_auth', __NAMESPACE__ . '\\handle_google_auth_ajax');
 add_action('wp_ajax_tmg_google_auth', __NAMESPACE__ . '\\handle_google_auth_ajax');
+
+function get_theme_login_url(string $mode = 'login'): string {
+	$mode = $mode === 'register' ? 'register' : 'login';
+
+	return home_url('/auth/?mode=' . $mode);
+}
+
+function maybe_redirect_default_login_screen(): void {
+	if (is_user_logged_in()) {
+		return;
+	}
+
+	$action = sanitize_text_field(wp_unslash($_REQUEST['action'] ?? 'login'));
+
+	if (in_array($action, array('logout', 'postpass'), true)) {
+		return;
+	}
+
+	$mode = $action === 'register' ? 'register' : 'login';
+
+	wp_safe_redirect(get_theme_login_url($mode));
+	exit;
+}
+add_action('login_init', __NAMESPACE__ . '\\maybe_redirect_default_login_screen');
+
+function maybe_redirect_protected_admin(): void {
+	if (is_user_logged_in() || wp_doing_ajax()) {
+		return;
+	}
+
+	if (defined('REST_REQUEST') && REST_REQUEST) {
+		return;
+	}
+
+	if (! is_admin()) {
+		return;
+	}
+
+	wp_safe_redirect(get_theme_login_url('login'));
+	exit;
+}
+add_action('admin_init', __NAMESPACE__ . '\\maybe_redirect_protected_admin');
+
+function filter_theme_login_url(string $login_url, string $redirect = '', bool $force_reauth = false): string {
+	$url = get_theme_login_url('login');
+
+	if ($redirect !== '') {
+		$url = add_query_arg('redirect_to', rawurlencode($redirect), $url);
+	}
+
+	return $url;
+}
+add_filter('login_url', __NAMESPACE__ . '\\filter_theme_login_url', 10, 3);
+
+function filter_theme_register_url(string $register_url): string {
+	return get_theme_login_url('register');
+}
+add_filter('register_url', __NAMESPACE__ . '\\filter_theme_register_url');
+
+function filter_theme_lostpassword_url(string $lostpassword_url, string $redirect = ''): string {
+	$url = get_theme_login_url('login');
+
+	if ($redirect !== '') {
+		$url = add_query_arg('redirect_to', rawurlencode($redirect), $url);
+	}
+
+	return $url;
+}
+add_filter('lostpassword_url', __NAMESPACE__ . '\\filter_theme_lostpassword_url', 10, 2);

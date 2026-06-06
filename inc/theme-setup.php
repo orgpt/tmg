@@ -92,6 +92,11 @@ function force_rtl_language_attributes(string $output): string {
 }
 add_filter('language_attributes', __NAMESPACE__ . '\\force_rtl_language_attributes');
 
+function disable_frontend_admin_bar(): bool {
+	return false;
+}
+add_filter('show_admin_bar', __NAMESPACE__ . '\\disable_frontend_admin_bar');
+
 function fallback_menu(): void {
 	echo '<ul class="tmg-nav__menu">';
 	echo '<li><a href="' . esc_url(home_url('/')) . '">' . esc_html__('الرئيسية', 'tmg-rentals') . '</a></li>';

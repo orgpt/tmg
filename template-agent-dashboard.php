@@ -56,7 +56,7 @@ get_header();
 					</div>
 				</div>
 				<div class="tmg-agent-dashboard__actions">
-					<a class="tmg-button tmg-button--primary" href="<?php echo esc_url(home_url('/add-property/')); ?>"><?php esc_html_e('إضافة عقار جديد', 'tmg-rentals'); ?></a>
+					<a class="tmg-button tmg-button--primary" href="<?php echo esc_url(home_url('/add-property/')); ?>"><?php esc_html_e('إضافة عقار من رصيد الباقة', 'tmg-rentals'); ?></a>
 					<a class="tmg-button tmg-button--ghost" href="<?php echo esc_url(home_url('/subscriptions/')); ?>"><?php esc_html_e('إدارة الاشتراك', 'tmg-rentals'); ?></a>
 				</div>
 			</div>
@@ -85,6 +85,7 @@ get_header();
 					<div><span><?php esc_html_e('الباقة', 'tmg-rentals'); ?></span><strong><?php echo esc_html($stats['package_title']); ?></strong></div>
 					<div><span><?php esc_html_e('المستخدم', 'tmg-rentals'); ?></span><strong><?php echo esc_html((string) $stats['usage']['used']); ?></strong></div>
 					<div><span><?php esc_html_e('المتاح', 'tmg-rentals'); ?></span><strong><?php echo esc_html((string) $stats['usage']['limit']); ?></strong></div>
+					<div><span><?php esc_html_e('المتبقي', 'tmg-rentals'); ?></span><strong><?php echo esc_html((string) max(0, (int) $stats['usage']['limit'] - (int) $stats['usage']['used'])); ?></strong></div>
 				</div>
 			</div>
 			<div class="tmg-card">

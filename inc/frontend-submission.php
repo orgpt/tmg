@@ -165,12 +165,24 @@ function handle_property_submission($post_id) {
 		return $post_id;
 	}
 
+	$user_id = get_current_user_id();
+
+	if (! $user_id) {
+		wp_die(esc_html__('يجب تسجيل الدخول قبل إرسال العقار.', 'tmg-rentals'));
+	}
+
+	$permission = can_user_publish_property($user_id);
+
+	if (! $permission['allowed']) {
+		wp_die(esc_html($permission['message']));
+	}
+
 	$new_post = array(
 		'post_type'    => 'properties',
 		'post_status'  => 'pending',
 		'post_title'   => sanitize_text_field(wp_unslash($_POST['acf']['field_submission_title'] ?? __('عقار جديد', 'tmg-rentals'))),
 		'post_content' => wp_kses_post(wp_unslash($_POST['acf']['field_submission_description'] ?? '')),
-		'post_author'  => get_current_user_id() ?: 0,
+		'post_author'  => $user_id,
 	);
 
 	$post_id = wp_insert_post($new_post);
@@ -268,3 +280,40 @@ function register_submission_form_fields(): void {
 	);
 }
 add_action('acf/init', __NAMESPACE__ . '\\register_submission_form_fields');
+
+function maybe_hide_payment_fields_for_agents($field) {
+	if (! is_user_logged_in()) {
+		return $field;
+	}
+
+	if (get_user_account_type(get_current_user_id()) !== 'agent') {
+		return $field;
+	}
+
+	return false;
+}
+add_filter('acf/prepare_field/key=field_submission_payment_method', __NAMESPACE__ . '\\maybe_hide_payment_fields_for_agents');
+add_filter('acf/prepare_field/key=field_submission_payment_reference', __NAMESPACE__ . '\\maybe_hide_payment_fields_for_agents');
+add_filter('acf/prepare_field/key=field_submission_payment_note', __NAMESPACE__ . '\\maybe_hide_payment_fields_for_agents');
+
+function validate_submission_payment_fields($valid, $value, $field, $input) {
+	if ($valid !== true) {
+		return $valid;
+	}
+
+	if (! is_user_logged_in()) {
+		return $valid;
+	}
+
+	if (get_user_account_type(get_current_user_id()) === 'agent') {
+		return true;
+	}
+
+	if (in_array($field['key'] ?? '', array('field_submission_payment_method', 'field_submission_payment_reference'), true) && trim((string) $value) === '') {
+		return __('يرجى استكمال بيانات الدفع قبل إرسال الإعلان.', 'tmg-rentals');
+	}
+
+	return $valid;
+}
+add_filter('acf/validate_value/key=field_submission_payment_method', __NAMESPACE__ . '\\validate_submission_payment_fields', 10, 4);
+add_filter('acf/validate_value/key=field_submission_payment_reference', __NAMESPACE__ . '\\validate_submission_payment_fields', 10, 4);
