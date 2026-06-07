@@ -192,3 +192,5 @@ if ($featured_count <= 1) {
 		</div>
 	</section>
 </main>
+<?php
+get_footer();
