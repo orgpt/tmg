@@ -1113,8 +1113,23 @@ body.is-rtl .tmg-payment-method {
 	grid-template-columns: repeat(3, minmax(0, 1fr));
 }
 
+.tmg-home-featured-grid {
+	grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr));
+	align-items: stretch;
+}
+
+.tmg-home-featured-grid--single {
+	grid-template-columns: minmax(0, 440px);
+	justify-content: center;
+}
+
+.tmg-home-featured-grid--double {
+	grid-template-columns: repeat(2, minmax(280px, 1fr));
+}
+
 .tmg-property-card {
 	overflow: hidden;
+	height: 100%;
 }
 
 .tmg-property-card__media {
@@ -1472,6 +1487,12 @@ body.is-rtl .tmg-payment-method {
 		grid-template-columns: repeat(2, minmax(0, 1fr));
 	}
 
+	.tmg-home-featured-grid,
+	.tmg-home-featured-grid--double,
+	.tmg-home-featured-grid--single {
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+	}
+
 	.tmg-metrics-grid {
 		grid-template-columns: repeat(2, minmax(0, 1fr));
 	}
@@ -1629,6 +1650,12 @@ body.is-rtl .tmg-payment-method {
 	.tmg-range-group,
 	.tmg-home-search__grid,
 	.tmg-projects-grid {
+		grid-template-columns: 1fr;
+	}
+
+	.tmg-home-featured-grid,
+	.tmg-home-featured-grid--double,
+	.tmg-home-featured-grid--single {
 		grid-template-columns: 1fr;
 	}
 

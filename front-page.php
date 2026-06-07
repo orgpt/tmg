@@ -21,6 +21,14 @@ $featured_query = new WP_Query(
 		'post_status'    => 'publish',
 	)
 );
+$featured_count = (int) $featured_query->post_count;
+$featured_grid_class = 'tmg-grid tmg-home-featured-grid';
+
+if ($featured_count <= 1) {
+	$featured_grid_class .= ' tmg-home-featured-grid--single';
+} elseif ($featured_count === 2) {
+	$featured_grid_class .= ' tmg-home-featured-grid--double';
+}
 ?>
 <main class="tmg-home">
 	<section class="tmg-home-hero">
@@ -143,7 +151,7 @@ $featured_query = new WP_Query(
 			</div>
 
 			<?php if ($featured_query->have_posts()) : ?>
-				<div class="tmg-grid">
+				<div class="<?php echo esc_attr($featured_grid_class); ?>">
 					<?php while ($featured_query->have_posts()) : $featured_query->the_post(); ?>
 						<?php $meta = get_property_meta(get_the_ID()); ?>
 						<article <?php post_class('tmg-property-card'); ?>>
