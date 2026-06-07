@@ -368,7 +368,7 @@ function maybe_redirect_default_login_screen(): void {
 add_action('login_init', __NAMESPACE__ . '\\maybe_redirect_default_login_screen');
 
 function maybe_redirect_protected_admin(): void {
-	if (is_user_logged_in() || wp_doing_ajax()) {
+	if (wp_doing_ajax()) {
 		return;
 	}
 
@@ -380,7 +380,27 @@ function maybe_redirect_protected_admin(): void {
 		return;
 	}
 
-	wp_safe_redirect(get_theme_login_url('login'));
+	$request_uri = sanitize_text_field(wp_unslash($_SERVER['REQUEST_URI'] ?? ''));
+	$request_path = strtolower((string) wp_parse_url($request_uri, PHP_URL_PATH));
+
+	if (str_ends_with($request_path, '/async-upload.php') || str_ends_with($request_path, '/admin-post.php')) {
+		return;
+	}
+
+	if (! is_user_logged_in()) {
+		wp_safe_redirect(get_theme_login_url('login'));
+		exit;
+	}
+
+	if (current_user_can('manage_options')) {
+		return;
+	}
+
+	$redirect = get_user_account_type(get_current_user_id()) === 'agent'
+		? home_url('/agent-dashboard/')
+		: home_url('/add-property/');
+
+	wp_safe_redirect($redirect);
 	exit;
 }
 add_action('admin_init', __NAMESPACE__ . '\\maybe_redirect_protected_admin');
