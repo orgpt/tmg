@@ -185,6 +185,30 @@ function disable_frontend_admin_bar(): bool {
 }
 add_filter('show_admin_bar', __NAMESPACE__ . '\\disable_frontend_admin_bar');
 
+function allow_frontend_media_uploads(array $allcaps, array $caps, array $args, \WP_User $user): array {
+	if (! $user->exists()) {
+		return $allcaps;
+	}
+
+	// Front-end property submission and profile uploads need Media Library access
+	// even for subscriber-like accounts.
+	$allcaps['upload_files'] = true;
+
+	return $allcaps;
+}
+add_filter('user_has_cap', __NAMESPACE__ . '\\allow_frontend_media_uploads', 10, 4);
+
+function limit_frontend_attachment_queries(array $query): array {
+	if (! is_user_logged_in() || current_user_can('manage_options')) {
+		return $query;
+	}
+
+	$query['author'] = get_current_user_id();
+
+	return $query;
+}
+add_filter('ajax_query_attachments_args', __NAMESPACE__ . '\\limit_frontend_attachment_queries');
+
 function fallback_menu(): void {
 	echo '<ul class="tmg-nav__menu">';
 	echo '<li><a href="' . esc_url(home_url('/')) . '">' . esc_html__('الرئيسية', 'tmg-rentals') . '</a></li>';
