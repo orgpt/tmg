@@ -1273,6 +1273,98 @@ body.is-rtl .tmg-payment-method {
 	box-shadow: var(--tmg-neon);
 }
 
+.tmg-site-footer {
+	padding: 1.25rem 0 2rem;
+}
+
+.tmg-site-footer__card {
+	padding: 1.5rem;
+	border: 1px solid var(--tmg-border);
+	border-radius: 32px;
+	background:
+		radial-gradient(circle at top right, rgba(212, 175, 55, 0.12), transparent 24%),
+		linear-gradient(180deg, rgba(255, 255, 255, 0.82), rgba(248, 250, 246, 0.96));
+	box-shadow: var(--tmg-shadow);
+}
+
+.tmg-site-footer__grid,
+.tmg-site-footer__bottom,
+.tmg-site-footer__actions {
+	display: flex;
+	gap: 1rem;
+}
+
+.tmg-site-footer__grid {
+	align-items: start;
+	justify-content: space-between;
+}
+
+.tmg-site-footer__brand,
+.tmg-site-footer__column {
+	display: grid;
+	gap: 0.85rem;
+}
+
+.tmg-site-footer__brand {
+	max-width: 320px;
+}
+
+.tmg-site-footer__logo {
+	width: min(220px, 100%);
+	height: auto;
+}
+
+.tmg-site-footer__column h2 {
+	margin: 0;
+	font-size: 1.08rem;
+}
+
+.tmg-site-footer__text {
+	margin: 0;
+	color: var(--tmg-muted);
+}
+
+.tmg-site-footer__links {
+	list-style: none;
+	margin: 0;
+	padding: 0;
+	display: grid;
+	gap: 0.7rem;
+}
+
+.tmg-site-footer__links a {
+	color: var(--tmg-text);
+	font-weight: 700;
+}
+
+.tmg-site-footer__links a:hover,
+.tmg-site-footer__bottom a:hover {
+	color: var(--tmg-primary);
+}
+
+.tmg-site-footer__actions {
+	flex-wrap: wrap;
+}
+
+.tmg-site-footer__bottom {
+	margin-top: 1.5rem;
+	padding-top: 1rem;
+	border-top: 1px solid var(--tmg-border);
+	align-items: center;
+	justify-content: space-between;
+	flex-wrap: wrap;
+}
+
+.tmg-site-footer__bottom p {
+	margin: 0;
+	color: var(--tmg-muted);
+}
+
+.tmg-site-footer__bottom a {
+	color: var(--tmg-text);
+	font-weight: 800;
+}
+
 .tmg-single-property__hero,
 .tmg-single-property__content {
 	display: grid;
@@ -1510,6 +1602,11 @@ body.is-rtl .tmg-payment-method {
 		align-items: stretch;
 	}
 
+	.tmg-site-footer__grid {
+		display: grid;
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+	}
+
 	html[dir="rtl"] .tmg-nav__menu,
 	body.is-rtl .tmg-nav__menu {
 		flex-direction: column;
@@ -1651,6 +1748,25 @@ body.is-rtl .tmg-payment-method {
 	.tmg-home-search__grid,
 	.tmg-projects-grid {
 		grid-template-columns: 1fr;
+	}
+
+	.tmg-site-footer__grid {
+		grid-template-columns: 1fr;
+	}
+
+	.tmg-site-footer__card {
+		padding: 1rem;
+		border-radius: 24px;
+	}
+
+	.tmg-site-footer__bottom,
+	.tmg-site-footer__actions {
+		flex-direction: column;
+		align-items: stretch;
+	}
+
+	.tmg-site-footer__actions .tmg-button {
+		width: 100%;
 	}
 
 	.tmg-home-featured-grid,
