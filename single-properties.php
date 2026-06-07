@@ -92,11 +92,13 @@ while (have_posts()) :
 							<div class="tmg-contact-actions">
 								<?php if ($whatsapp_url) : ?>
 									<a class="tmg-button tmg-button--whatsapp" href="<?php echo esc_url($whatsapp_url); ?>" target="_blank" rel="noopener">
+										<span class="tmg-button__icon" aria-hidden="true">◔</span>
 										<?php esc_html_e('تواصل عبر الواتساب', 'tmg-rentals'); ?>
 									</a>
 								<?php endif; ?>
 								<?php if ($phone) : ?>
-									<a class="tmg-button tmg-button--primary" href="<?php echo esc_url('tel:' . $phone); ?>">
+									<a class="tmg-button tmg-button--call" href="<?php echo esc_url('tel:' . $phone); ?>">
+										<span class="tmg-button__icon" aria-hidden="true">☎</span>
 										<?php esc_html_e('اتصل الآن', 'tmg-rentals'); ?>
 									</a>
 								<?php endif; ?>
@@ -127,11 +129,13 @@ while (have_posts()) :
 		<div class="tmg-mobile-sticky-cta">
 			<?php if ($whatsapp_url) : ?>
 				<a class="tmg-button tmg-button--whatsapp" href="<?php echo esc_url($whatsapp_url); ?>" target="_blank" rel="noopener">
+					<span class="tmg-button__icon" aria-hidden="true">◔</span>
 					<?php esc_html_e('واتساب', 'tmg-rentals'); ?>
 				</a>
 			<?php endif; ?>
 			<?php if ($phone) : ?>
-				<a class="tmg-button tmg-button--primary" href="<?php echo esc_url('tel:' . $phone); ?>">
+				<a class="tmg-button tmg-button--call" href="<?php echo esc_url('tel:' . $phone); ?>">
+					<span class="tmg-button__icon" aria-hidden="true">☎</span>
 					<?php esc_html_e('اتصال', 'tmg-rentals'); ?>
 				</a>
 			<?php endif; ?>
