@@ -181,16 +181,16 @@ body.is-rtl .tmg-site-header__inner {
 	z-index: 1001;
 }
 
+.tmg-header-panel--desktop {
+	display: block;
+}
+
 @media (min-width: 861px) {
 	.tmg-mobile-menu {
-		display: block;
-	}
-
-	.tmg-mobile-menu > summary {
 		display: none;
 	}
 
-	.tmg-mobile-menu .tmg-header-panel {
+	.tmg-header-panel--desktop {
 		display: block !important;
 		position: static;
 		width: auto;
@@ -1419,6 +1419,10 @@ body.is-rtl .tmg-payment-method {
 		grid-row: 1;
 		justify-self: end;
 		position: static;
+	}
+
+	.tmg-header-panel--desktop {
+		display: none !important;
 	}
 
 	.tmg-mobile-menu:not([open]) .tmg-header-panel {
