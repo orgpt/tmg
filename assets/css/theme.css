@@ -181,6 +181,22 @@ body.is-rtl .tmg-site-header__inner {
 	z-index: 1001;
 }
 
+@media (min-width: 861px) {
+	.tmg-mobile-menu {
+		display: block;
+	}
+
+	.tmg-mobile-menu > summary {
+		display: none;
+	}
+
+	.tmg-mobile-menu .tmg-header-panel {
+		display: block !important;
+		position: static;
+		width: auto;
+	}
+}
+
 .tmg-menu-toggle {
 	display: none;
 	align-items: center;
