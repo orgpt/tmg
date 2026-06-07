@@ -96,7 +96,7 @@ $return_after_submit = $is_agent
 						'updated_message'    => __('تم حفظ الإعلان بنجاح.', 'tmg-rentals'),
 						'html_submit_button' => '<button class="tmg-button tmg-button--primary" type="submit">%s</button>',
 						'return'             => $return_after_submit,
-						'uploader'           => 'wp',
+						'uploader'           => 'basic',
 					)
 				);
 			} else {

@@ -1,0 +1,111 @@
+[
+  {
+    "key": "group_tmg_property_details",
+    "title": "بيانات العقار",
+    "fields": [
+      {
+        "key": "field_property_price",
+        "label": "سعر الإيجار",
+        "name": "property_price",
+        "type": "number",
+        "required": 1,
+        "min": 0,
+        "step": 100,
+        "append": "جنيه / شهر"
+      },
+      {
+        "key": "field_property_bedrooms",
+        "label": "عدد الغرف",
+        "name": "property_bedrooms",
+        "type": "number",
+        "min": 0,
+        "step": 1
+      },
+      {
+        "key": "field_property_bathrooms",
+        "label": "عدد الحمامات",
+        "name": "property_bathrooms",
+        "type": "number",
+        "min": 0,
+        "step": 1
+      },
+      {
+        "key": "field_property_area",
+        "label": "المساحة",
+        "name": "property_area",
+        "type": "number",
+        "min": 0,
+        "append": "م²"
+      },
+      {
+        "key": "field_property_floor",
+        "label": "الدور",
+        "name": "property_floor",
+        "type": "text"
+      },
+      {
+        "key": "field_project_group",
+        "label": "المجموعة / Bhabits",
+        "name": "project_group",
+        "type": "text"
+      },
+      {
+        "key": "field_building_number",
+        "label": "رقم العمارة",
+        "name": "building_number",
+        "type": "text"
+      },
+      {
+        "key": "field_property_model",
+        "label": "النموذج",
+        "name": "property_model",
+        "type": "text"
+      },
+      {
+        "key": "field_owner_name",
+        "label": "اسم المالك",
+        "name": "owner_name",
+        "type": "text",
+        "required": 1
+      },
+      {
+        "key": "field_whatsapp_number",
+        "label": "رقم واتساب",
+        "name": "whatsapp_number",
+        "type": "text",
+        "required": 1
+      },
+      {
+        "key": "field_phone_number",
+        "label": "رقم الهاتف",
+        "name": "phone_number",
+        "type": "text"
+      },
+      {
+        "key": "field_property_gallery",
+        "label": "معرض الصور",
+        "name": "property_gallery",
+        "type": "gallery",
+        "preview_size": "medium",
+        "insert": "append",
+        "library": "all",
+        "min": 1,
+        "return_format": "array",
+        "instructions": "يمكن استيراد هذه المجموعة من ACF. الرافع الأساسي Basic Uploader يتم تفعيله من كود النموذج داخل الثيم."
+      }
+    ],
+    "location": [
+      [
+        {
+          "param": "post_type",
+          "operator": "==",
+          "value": "properties"
+        }
+      ]
+    ],
+    "position": "normal",
+    "style": "seamless",
+    "active": true,
+    "show_in_rest": 1
+  }
+]

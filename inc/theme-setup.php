@@ -38,10 +38,6 @@ function enqueue_assets(): void {
 	wp_enqueue_style('tmg-rentals-theme', TMG_RENTALS_URL . '/assets/css/theme.css', array('tmg-rentals-fonts', 'tmg-rentals-style'), TMG_RENTALS_VERSION);
 	wp_enqueue_script('tmg-rentals-theme', TMG_RENTALS_URL . '/assets/js/theme.js', array(), TMG_RENTALS_VERSION, true);
 
-	if ($is_add_property) {
-		wp_enqueue_media();
-	}
-
 	if (! empty($google_settings['client_id'])) {
 		wp_enqueue_script('google-identity-services', 'https://accounts.google.com/gsi/client', array(), null, true);
 	}
@@ -184,6 +180,21 @@ function disable_frontend_admin_bar(): bool {
 	return false;
 }
 add_filter('show_admin_bar', __NAMESPACE__ . '\\disable_frontend_admin_bar');
+
+function ensure_frontend_upload_role_caps(): void {
+	$roles = array('subscriber', 'contributor', 'author', 'editor');
+
+	foreach ($roles as $role_name) {
+		$role = get_role($role_name);
+
+		if (! $role || $role->has_cap('upload_files')) {
+			continue;
+		}
+
+		$role->add_cap('upload_files');
+	}
+}
+add_action('init', __NAMESPACE__ . '\\ensure_frontend_upload_role_caps');
 
 function allow_frontend_media_uploads(array $allcaps, array $caps, array $args, \WP_User $user): array {
 	if (! $user->exists()) {
